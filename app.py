@@ -115,10 +115,13 @@ def index():
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span id="chain-name">initiation-2: Block #...</span>
             </span>
-            <a href="/grant_proposal" target="_blank" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 transition shadow-lg shadow-blue-600/30">
-                <i class="fa-solid fa-file-contract"></i> Foundation Grant Proposal
+            <a href="https://t.me/initiapulsebot" target="_blank" class="px-3 py-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-medium text-xs flex items-center gap-1.5 transition">
+                <i class="fa-brands fa-telegram text-sm"></i> Telegram Bot
             </a>
-            <button onclick="refreshAll()" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 text-xs transition">
+            <a href="https://github.com/manja316/initiapulse" target="_blank" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 font-medium text-xs flex items-center gap-1.5 transition">
+                <i class="fa-brands fa-github text-sm"></i> GitHub
+            </a>
+            <button onclick="refreshAll()" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 text-xs transition" title="Refresh Data">
                 <i class="fa-solid fa-arrows-rotate"></i>
             </button>
         </div>
@@ -325,6 +328,16 @@ def index():
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 pt-6 border-t border-gray-800/80 text-center text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+        <div>InitiaPulse Terminal • Built for the Initia Interwoven Stack</div>
+        <div class="flex items-center gap-4 text-[11px] font-mono">
+            <a href="https://github.com/manja316/initiapulse" target="_blank" class="text-gray-400 hover:text-white transition">GitHub (MIT)</a>
+            <a href="https://t.me/initiapulsebot" target="_blank" class="text-blue-400 hover:text-blue-300 transition">@initiapulsebot</a>
+            <a href="/grant_proposal" target="_blank" class="text-gray-600 hover:text-gray-400 transition">Grant Spec</a>
+        </div>
+    </footer>
 
     <script>
         function switchTab(tabId) {
