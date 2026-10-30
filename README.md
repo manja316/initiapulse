@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Network: Initia Testnet](https://img.shields.io/badge/Initia_Testnet-initiation--2-blue)](https://rest.testnet.initia.xyz)
 [![Telegram Bot](https://img.shields.io/badge/Telegram_Bot-@initiapulsebot-0088cc)](https://t.me/initiapulsebot)
-[![Hosting: Vercel](https://img.shields.io/badge/Hosted_on-Vercel-black)](https://vercel.com)
+[![Hosting: Vercel](https://img.shields.io/badge/Hosted_on-Vercel-black)](https://initiapulse-phi.vercel.app)
 
 ---
 

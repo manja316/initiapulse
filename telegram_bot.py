@@ -42,14 +42,15 @@ def handle_update(update: dict):
 
     if text.startswith("/start") or text.startswith("/help"):
         welcome = (
-            "⚡ <b>Welcome to InitiaPulse Terminal Bot!</b> (@initiapulsebot)\n\n"
-            "I track the <b>500M $INIT</b> flowing into Enshrined Liquidity and VIP Gauge Rewards on the Initia Interwoven Stack.\n\n"
-            "<b>Available Commands:</b>\n"
-            "• <code>/gauges</code> - View active Minitia VIP Gauge Wars & bribes\n"
-            "• <code>/pools</code> - View Enshrined Liquidity (InitiaDEX) APRs\n"
-            "• <code>/status</code> - Live Initia L1 Testnet block height\n"
-            "• <code>/staker &lt;usd_amount&gt;</code> - Calculate optimal yield (e.g. <code>/staker 10000</code>)\n"
-            "• <code>/grant</code> - View our $25k Initia Foundation grant proposal"
+            "<b>InitiaPulse Sentinel</b> (@initiapulsebot)\n"
+            "Real-time tracking for Initia VIP Gauge Wars & Enshrined Liquidity.\n\n"
+            "<b>Commands:</b>\n"
+            "• <code>/gauges</code> — Active 14-day Minitia gauge weights & bribes\n"
+            "• <code>/pools</code> — Enshrined LP yields (InitiaDEX)\n"
+            "• <code>/status</code> — Live initiation-2 block height\n"
+            "• <code>/staker &lt;usd&gt;</code> — Yield simulator (e.g. <code>/staker 10000</code>)\n"
+            "• <code>/grant</code> — Foundation grant proposal details\n\n"
+            "Web: https://initiapulse-phi.vercel.app"
         )
         send_message(chat_id, welcome)
 

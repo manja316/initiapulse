@@ -106,7 +106,7 @@ def index():
                     <h1 class="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
                         InitiaPulse <span class="text-xs px-2.5 py-0.5 rounded-full badge-gradient text-white font-mono">Terminal v1.0</span>
                     </h1>
-                    <p class="text-xs text-gray-400">The VIP Gauge & Enshrined Liquidity Intelligence Hub for the Interwoven Economy</p>
+                    <p class="text-xs text-gray-400">VIP Gauge Wars, Enshrined Liquidity & Minitia Bribe Analytics</p>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@ def index():
                 <span id="chain-name">initiation-2: Block #...</span>
             </span>
             <a href="/grant_proposal" target="_blank" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 transition shadow-lg shadow-blue-600/30">
-                <i class="fa-solid fa-file-contract"></i> Grant Proposal ($25k)
+                <i class="fa-solid fa-file-contract"></i> Foundation Grant Proposal
             </a>
             <button onclick="refreshAll()" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 text-xs transition">
                 <i class="fa-solid fa-arrows-rotate"></i>
@@ -163,16 +163,16 @@ def index():
     <!-- Navigation Tabs -->
     <div class="flex gap-2 border-b border-gray-800 pb-3 mb-6 overflow-x-auto text-xs font-medium">
         <button onclick="switchTab('gauges')" id="tab-btn-gauges" class="tab-btn active px-4 py-2 rounded-lg glass transition flex items-center gap-2">
-            <i class="fa-solid fa-ranking-star"></i> VIP Gauge Wars (Minitias)
+            <i class="fa-solid fa-ranking-star"></i> VIP Gauge Wars
         </button>
         <button onclick="switchTab('enshrined')" id="tab-btn-enshrined" class="tab-btn px-4 py-2 rounded-lg glass transition flex items-center gap-2">
-            <i class="fa-solid fa-water"></i> Enshrined Liquidity Pools
+            <i class="fa-solid fa-water"></i> Enshrined LP Pools
         </button>
         <button onclick="switchTab('staker')" id="tab-btn-staker" class="tab-btn px-4 py-2 rounded-lg glass transition flex items-center gap-2">
-            <i class="fa-solid fa-calculator"></i> Staker Yield Maximizer
+            <i class="fa-solid fa-calculator"></i> Staker Yield Simulator
         </button>
         <button onclick="switchTab('rollup')" id="tab-btn-rollup" class="tab-btn px-4 py-2 rounded-lg glass transition flex items-center gap-2">
-            <i class="fa-solid fa-cubes-stacked"></i> Rollup Bribe ROI Simulator
+            <i class="fa-solid fa-cubes-stacked"></i> Minitia Bribe ROI
         </button>
     </div>
 
