@@ -75,6 +75,8 @@ def rollup_roi(target_share_pct: float = 15.0):
     return engine.calculate_rollup_roi(target_share_pct)
 
 @app.get("/", response_class=HTMLResponse)
+@app.get("/api/index", response_class=HTMLResponse)
+@app.get("/api", response_class=HTMLResponse)
 def index():
     html_content = """
 <!DOCTYPE html>
@@ -448,6 +450,8 @@ def index():
     return HTMLResponse(content=html_content)
 
 @app.get("/grant_proposal", response_class=HTMLResponse)
+@app.get("/api/index/grant_proposal", response_class=HTMLResponse)
+@app.get("/api/grant_proposal", response_class=HTMLResponse)
 def grant_proposal_page():
     proposal_path = Path(__file__).parent / "grant_proposal" / "initia_foundation_grant.html"
     if proposal_path.exists():
