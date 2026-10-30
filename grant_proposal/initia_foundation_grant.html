@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initia Foundation Ecosystem Grant Proposal | InitiaPulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0A0D14; color: #E2E8F0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    </style>
+</head>
+<body class="p-6 md:p-12 max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="border-b border-gray-800 pb-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <span class="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase font-bold tracking-wider">
+                Ecosystem Grant Application • Public Goods & Tooling
+            </span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white mt-3">InitiaPulse: The VIP Gauge & Enshrined Liquidity Intelligence Hub</h1>
+            <p class="text-sm text-gray-400 mt-1">Submitted to: <strong class="text-white">Initia Foundation Grants Committee</strong></p>
+        </div>
+        <div class="text-right text-xs font-mono text-gray-400">
+            <div>Target Ask: <span class="text-emerald-400 font-bold text-base">$25,000 USD in $INIT</span></div>
+            <div>Category: <span class="text-white">Public Goods / Analytics & Infrastructure</span></div>
+            <div>Status: <span class="text-blue-400 font-bold">WORKING MVP DEPLOYED</span></div>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="glass p-8 rounded-2xl mb-8 border-l-4 border-blue-500 space-y-3">
+        <h2 class="text-lg font-bold text-white uppercase tracking-wider text-xs">1. Executive Summary</h2>
+        <p class="text-sm text-gray-300 leading-relaxed">
+            With <strong>50% of Initia’s fixed 1 Billion $INIT supply (500,000,000 INIT)</strong> allocated across Enshrined Liquidity (250M) and the Vested Interest Program (250M), Initia has built crypto's most sophisticated incentive alignment mechanism. 
+            However, there is currently <strong>zero unified transparency for stakers and rollup teams</strong> to track real-time gauge voting weights, bribe pools, or dual-yield staking APYs.
+        </p>
+        <p class="text-sm text-gray-300 leading-relaxed">
+            <strong>InitiaPulse</strong> is an open-source, non-custodial analytics terminal (the "DeFiLlama of Initia") that demystifies Enshrined Liquidity inflation ($r_a$) and tracks the 2-week VIP gauge voting cycles across all Minitias. 
+            We are requesting a <strong>$25,000 milestone-based grant</strong> from the Initia Foundation to maintain this infrastructure as a free, non-commercial public good for the entire Interwoven Economy.
+        </p>
+    </div>
+
+    <!-- The Problem & Solution -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-xs">
+        <div class="glass p-6 rounded-2xl space-y-2 border-l-4 border-red-500">
+            <h3 class="font-bold text-white uppercase text-xs">The Problem for the Ecosystem</h3>
+            <ul class="space-y-2 text-gray-300 list-disc list-inside">
+                <li><strong>Opaque Staker Yields:</strong> Stakers cannot easily compare pure L1 staking (14.2%) vs. Enshrined LP staking (32.4%) vs. VIP gauge bribes.</li>
+                <li><strong>Minitia Blindspots:</strong> Rollup teams lack a mathematical model to calculate how many votes they need to capture their share of the 538,461 INIT stage reward.</li>
+                <li><strong>Fragmentation:</strong> Data is scattered across raw Cosmos RPC nodes, Minitswap pools, and multiple L2 sequencers.</li>
+            </ul>
+        </div>
+        <div class="glass p-6 rounded-2xl space-y-2 border-l-4 border-emerald-500">
+            <h3 class="font-bold text-white uppercase text-xs">The InitiaPulse Solution</h3>
+            <ul class="space-y-2 text-gray-300 list-disc list-inside">
+                <li><strong>Live Gauge Wars Leaderboard:</strong> Real-time tracking of votes, bribe pools, and projected INIT distributions per 2-week cycle with 40% cap warnings.</li>
+                <li><strong>Enshrined LP Matrix:</strong> Real-time formula execution of $r_a = (w_a \cdot r_{total}) / \sum w_i$ with blended fee + staking APRs.</li>
+                <li><strong>Minitia Bribe ROI Simulator:</strong> Interactive calculator for rollups to optimize bribe efficiency (demonstrating ~5.5x subsidy multiplier).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Milestone Roadmap & Budget Allocation -->
+    <div class="glass p-8 rounded-2xl mb-8 space-y-6">
+        <h2 class="text-base font-bold text-white uppercase tracking-wider text-xs">2. Milestone Roadmap & Grant Allocation ($25,000 Total)</h2>
+        
+        <div class="space-y-4 text-xs font-mono">
+            <div class="p-4 bg-gray-900/80 rounded-xl border border-gray-800 flex justify-between items-center">
+                <div>
+                    <span class="text-emerald-400 font-bold">MILESTONE 1: Working Testnet Prototype & Formula Engine (COMPLETED)</span>
+                    <p class="text-gray-400 font-sans text-xs mt-1">Delivery of the local/hosted analytics engine, initiation-2 testnet RPC live telemetry, and interactive yield calculators.</p>
+                </div>
+                <span class="text-white font-bold text-sm">$5,000 USD</span>
+            </div>
+
+            <div class="p-4 bg-gray-900/80 rounded-xl border border-gray-800 flex justify-between items-center">
+                <div>
+                    <span class="text-blue-400 font-bold">MILESTONE 2: Mainnet V1 & Web3 Wallet Autosign Integration (Month 1-2)</span>
+                    <p class="text-gray-400 font-sans text-xs mt-1">Integration with InterwovenKit for 1-click gauge voting, address portfolio tracking, and automated email/Telegram alerts for cycle deadlines.</p>
+                </div>
+                <span class="text-white font-bold text-sm">$10,000 USD</span>
+            </div>
+
+            <div class="p-4 bg-gray-900/80 rounded-xl border border-gray-800 flex justify-between items-center">
+                <div>
+                    <span class="text-purple-400 font-bold">MILESTONE 3: Minitia Bribe Vaults & Public API / SDK (Month 3)</span>
+                    <p class="text-gray-400 font-sans text-xs mt-1">Open public REST API and TypeScript SDK allowing Minitia rollups and community dashboards to embed live gauge and APR widgets with zero hosting cost.</p>
+                </div>
+                <span class="text-white font-bold text-sm">$10,000 USD</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team & Open Source Commitment -->
+    <div class="glass p-8 rounded-2xl border border-gray-800 text-xs space-y-3">
+        <h2 class="text-base font-bold text-white uppercase tracking-wider text-xs">3. Open Source Commitment</h2>
+        <p class="text-gray-300 leading-relaxed">
+            InitiaPulse is 100% open-source under the MIT license. All data pipelines, mathematical formulas, and frontend components will be permanently hosted on GitHub for community inspection. 
+            We commit to zero paywalls, zero locked features, and zero token sales. Our team is dedicated to growing the Interwoven Economy.
+        </p>
+    </div>
+</body>
+</html>
