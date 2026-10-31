@@ -85,12 +85,17 @@
             <div class="flex items-start md:items-center gap-2">
                 <span class="text-[var(--color-warn)] font-bold whitespace-nowrap">⚠️ NETWORK HALT NOTICE:</span>
                 <span class="text-[var(--color-ink)] leading-relaxed">
-                    As of Oct 23, 15:41 UTC, Initia L1 & Rollups are halted due to a MoveVM security exploit. The official dApp (app.initia.xyz) has taken its frontends offline (404). All action links below route directly to live on-chain data on Initia Scan (scan.initia.xyz).
+                    As of Oct 23, 15:41 UTC, Initia L1 & Rollups are halted due to a MoveVM security incident. The official dApp (app.initia.xyz) is offline. All action links below route directly to the official Initia Scan (<a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="underline text-[var(--color-accent)] font-bold">interwoven-1</a>).
                 </span>
             </div>
-            <a href="https://x.com/initia/status/2113661738625155217" target="_blank" class="px-2.5 py-1 border border-[var(--color-warn)] text-[var(--color-warn)] hover:bg-[var(--color-warn)] hover:text-[var(--color-paper)] font-bold text-[10px] whitespace-nowrap transition-colors">
-                READ X STATEMENT ↗
-            </a>
+            <div class="flex items-center gap-2">
+                <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] whitespace-nowrap transition-colors">
+                    INITIA SCAN ↗
+                </a>
+                <a href="https://x.com/initia/status/2113661738625155217" target="_blank" class="px-2.5 py-1 border border-[var(--color-warn)] text-[var(--color-warn)] hover:bg-[var(--color-warn)] hover:text-[var(--color-paper)] font-bold text-[10px] whitespace-nowrap transition-colors">
+                    X STATEMENT ↗
+                </a>
+            </div>
         </div>
 
         <!-- Main Terminal Header -->
@@ -329,8 +334,8 @@
                             </div>
                         </div>
                         <div class="col-span-2 pt-2">
-                            <a href="https://scan.initia.xyz/initiation-2/proposals" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
-                                VIEW ON-CHAIN PROPOSALS ON SCAN ↗
+                            <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
+                                OPEN INITIA SCAN (INTERWOVEN-1) ↗
                             </a>
                         </div>
                     </div>
@@ -397,7 +402,7 @@
                         <span class="text-[10px] text-[var(--color-muted)] block">($${g.projected_stage_usd.toLocaleString()})</span>
                     </td>
                     <td class="text-right pr-2">
-                        <a href="https://scan.initia.xyz/initiation-2/proposals" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
+                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
                             VOTE ↗
                         </a>
                     </td>
@@ -420,7 +425,7 @@
                     <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
                     <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
                     <td class="text-right pr-2">
-                        <a href="https://scan.initia.xyz/initiation-2/pools" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
+                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
                             DEPOSIT LP ↗
                         </a>
                     </td>
@@ -451,7 +456,7 @@
                             <span class="text-base font-bold text-[var(--color-accent)]">${s.apr}% APY</span>
                             <span class="text-[10px] text-[var(--color-muted)] block">+$${s.annual_yield_usd.toLocaleString()} / year</span>
                         </div>
-                        <a href="${idx === 1 ? 'https://scan.initia.xyz/initiation-2/pools' : 'https://scan.initia.xyz/initiation-2/validators'}" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
+                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
                             EXECUTE ↗
                         </a>
                     </div>
