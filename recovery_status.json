@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-31T06:41:07.425658+00:00",
+  "app_status": "HTTP_200",
+  "app_maintenance": false,
+  "mainnet_rpc_online": false,
+  "mainnet_latest_height": 0,
+  "github_latest_release": "v1.4.10",
+  "binance_price_usd": 0.18303,
+  "signals": []
+}
