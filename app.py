@@ -121,6 +121,9 @@ def index():
             <a href="https://github.com/manja316/initiapulse" target="_blank" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 font-medium text-xs flex items-center gap-1.5 transition">
                 <i class="fa-brands fa-github text-sm"></i> GitHub
             </a>
+            <a href="https://telegram.me/initiapulsebot" target="_blank" class="px-3 py-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 font-medium text-xs flex items-center gap-1.5 transition" title="Submit feedback or telemetry requests">
+                <i class="fa-solid fa-comment-dots text-sm"></i> Feedback
+            </a>
             <button onclick="refreshAll()" class="px-3 py-2 rounded-lg glass hover:bg-gray-800 text-gray-300 text-xs transition" title="Refresh Data">
                 <i class="fa-solid fa-arrows-rotate"></i>
             </button>
@@ -335,6 +338,7 @@ def index():
         <div class="flex items-center gap-4 text-[11px] font-mono">
             <a href="https://github.com/manja316/initiapulse" target="_blank" class="text-gray-400 hover:text-white transition">GitHub (MIT)</a>
             <a href="https://telegram.me/initiapulsebot" target="_blank" class="text-blue-400 hover:text-blue-300 transition">@initiapulsebot</a>
+            <a href="https://telegram.me/initiapulsebot" target="_blank" class="text-purple-400 hover:text-purple-300 transition">Feedback</a>
             <a href="/grant_proposal" target="_blank" class="text-gray-600 hover:text-gray-400 transition">Grant Spec</a>
         </div>
     </footer>
@@ -473,8 +477,33 @@ def grant_proposal_page():
     return HTMLResponse(content="<h1>Grant proposal rendering...</h1>")
 
 # -------------------------------------------------------------
-# 24/7 Cloud Serverless Telegram Bot Webhook
+# Community Feedback Storage & Telegram Sentinel Webhook
 # -------------------------------------------------------------
+from datetime import datetime, timezone
+
+FEEDBACK_FILE = Path("/tmp/initiapulse_feedback.json") if Path("/tmp").exists() else Path("feedback_log.json")
+COMMUNITY_FEEDBACK = []
+
+def record_feedback(sender: str, chat_id: int, content: str):
+    entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "sender": sender,
+        "chat_id": chat_id,
+        "content": content
+    }
+    COMMUNITY_FEEDBACK.append(entry)
+    print(f"[COMMUNITY FEEDBACK] @{sender} ({chat_id}): {content}", flush=True)
+    try:
+        current = []
+        if FEEDBACK_FILE.exists():
+            with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+                current = json.load(f)
+        current.append(entry)
+        with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
+            json.dump(current, f, indent=2)
+    except Exception as e:
+        print(f"[FEEDBACK SAVE ERROR] {e}", flush=True)
+
 TELEGRAM_BOT_TOKEN = "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw"
 TELEGRAM_BOT_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
@@ -492,7 +521,8 @@ def send_tg_message(chat_id: int, text: str):
 def process_tg_update(update: dict):
     msg = update.get("message", {})
     chat_id = msg.get("chat", {}).get("id")
-    text = (msg.get("text") or "").strip().lower()
+    raw_text = (msg.get("text") or "").strip()
+    text = raw_text.lower()
 
     if not chat_id or not text:
         return
@@ -506,6 +536,7 @@ def process_tg_update(update: dict):
             "• <code>/pools</code> — Enshrined LP yields (InitiaDEX)\n"
             "• <code>/status</code> — Live initiation-2 block height\n"
             "• <code>/staker &lt;usd&gt;</code> — Yield simulator (e.g. <code>/staker 10000</code>)\n"
+            "• <code>/feedback &lt;msg&gt;</code> — Submit ideas or telemetry requests\n"
             "• <code>/grant</code> — Foundation grant proposal details\n\n"
             "Web: https://initiapulse-phi.vercel.app"
         )
@@ -577,6 +608,29 @@ def process_tg_update(update: dict):
         ]
         send_tg_message(chat_id, "\n".join(lines))
 
+    elif text.startswith("/feedback"):
+        parts = raw_text.split(maxsplit=1)
+        if len(parts) < 2 or not parts[1].strip():
+            guide = (
+                "💡 <b>InitiaPulse Community Feedback</b>\n\n"
+                "What telemetry or features would help you most before mainnet?\n\n"
+                "<b>Usage:</b>\n"
+                "<code>/feedback &lt;your idea, question, or telemetry request&gt;</code>\n\n"
+                "<i>Example:</i> <code>/feedback Add custom Minitia bribe alert thresholds</code>"
+            )
+            send_tg_message(chat_id, guide)
+        else:
+            feedback_body = parts[1].strip()
+            user_from = msg.get("from", {})
+            sender = user_from.get("username") or user_from.get("first_name") or f"user_{chat_id}"
+            record_feedback(sender=sender, chat_id=chat_id, content=feedback_body)
+            ack = (
+                "✅ <b>Feedback Logged!</b>\n\n"
+                f"<i>\"{feedback_body}\"</i>\n\n"
+                "Thank you for helping test InitiaPulse. Your feedback has been logged directly into our sprint board."
+            )
+            send_tg_message(chat_id, ack)
+
     elif text.startswith("/grant"):
         grant_msg = (
             "📄 <b>Initia Foundation Ecosystem Grant Proposal</b>\n\n"
@@ -590,6 +644,24 @@ def process_tg_update(update: dict):
             "Read full proposal: https://initiapulse-phi.vercel.app/grant_proposal"
         )
         send_tg_message(chat_id, grant_msg)
+
+@app.get("/api/v1/feedback")
+@app.get("/api/index/api/v1/feedback")
+@app.get("/api/feedback")
+def get_feedback_records():
+    items = list(COMMUNITY_FEEDBACK)
+    if FEEDBACK_FILE.exists():
+        try:
+            with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+                disk_items = json.load(f)
+                seen = {x.get("timestamp", "") + str(x.get("content", "")) for x in items}
+                for d in disk_items:
+                    k = d.get("timestamp", "") + str(d.get("content", ""))
+                    if k not in seen:
+                        items.append(d)
+        except Exception:
+            pass
+    return {"status": "ok", "count": len(items), "feedback": items}
 
 @app.post("/api/telegram-webhook")
 @app.post("/telegram-webhook")
