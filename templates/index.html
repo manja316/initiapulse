@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InitiaPulse // VIP Gauge & Enshrined Liquidity Terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hallmark Terminal Theme v2.0 • Initia Interwoven Intelligence */
+        :root {
+            --color-paper: #080c0a;
+            --color-paper-2: #0e1410;
+            --color-paper-3: #151e18;
+            --color-ink: #ecfdf5;
+            --color-ink-2: #a7f3d0;
+            --color-muted: #648373;
+            --color-rule: #1b2e23;
+            --color-rule-2: #2b4234;
+            --color-accent: #22c55e;
+            --color-accent-ink: #04140a;
+            --color-accent-wash: rgba(34, 197, 94, 0.10);
+            --color-warn: #eab308;
+            --color-warn-wash: rgba(234, 179, 8, 0.12);
+            --font-mono: 'Martian Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+
+        html, body {
+            background-color: var(--color-paper);
+            color: var(--color-ink);
+            font-family: var(--font-mono);
+            font-stretch: 87.5%;
+            font-variant-numeric: tabular-nums;
+            margin: 0;
+            padding: 0;
+            overflow-x: clip;
+        }
+
+        .btn-hallmark {
+            transition-property: background-color, border-color, color;
+            transition-duration: 100ms;
+            transition-timing-function: steps(1);
+        }
+
+        .tab-btn.active {
+            background-color: var(--color-paper-3);
+            color: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 1px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-paper); }
+        ::-webkit-scrollbar-thumb { background: var(--color-rule-2); }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen text-xs">
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Top Telemetry Micro-Bar -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 border-b border-[var(--color-rule)] text-[11px] font-mono text-[var(--color-muted)] gap-2">
+            <div class="flex items-center gap-3">
+                <span class="text-[var(--color-accent)] font-bold">INITIAPULSE_TERMINAL // V1.0</span>
+                <span>•</span>
+                <span id="network-badge" class="inline-flex items-center gap-1.5 text-[var(--color-ink-2)]">
+                    <span class="w-1.5 h-1.5 bg-[var(--color-accent)] inline-block"></span>
+                    <span id="chain-name">initiation-2: Block #...</span>
+                </span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-[var(--color-ink-2)] font-mono">FEED: BINANCE SPOT (INIT/USDT)</span>
+                <span>•</span>
+                <span>INTERWOVEN_STACK: MOVE | WASM | EVM</span>
+            </div>
+        </div>
+
+        <!-- Main Terminal Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-4 border-b border-[var(--color-rule)]">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight text-[var(--color-ink)] flex items-center gap-2">
+                    <span class="text-[var(--color-accent)]">&gt;_</span> InitiaPulse Terminal
+                    <span class="text-[10px] font-normal text-[var(--color-muted)] px-2 py-0.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)]">
+                        ENSHRINED_LIQUIDITY // VIP_GAUGES
+                    </span>
+                </h1>
+                <p class="text-[11px] text-[var(--color-muted)] mt-1.5 max-w-2xl leading-relaxed">
+                    Decentralized VIP Gauge Wars, Enshrined Liquidity & Minitia Bribe Yield Router. Real-time telemetry, 40% single-L2 cap guardrails, and 1-click on-chain execution for the Initia ecosystem.
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <a href="https://telegram.me/initiapulsebot" target="_blank" class="btn-hallmark px-3 py-1.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] hover:bg-[var(--color-paper-3)] text-[var(--color-ink-2)] font-mono">
+                    telegram_bot ↗
+                </a>
+                <a href="https://github.com/manja316/initiapulse" target="_blank" class="btn-hallmark px-3 py-1.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] hover:bg-[var(--color-paper-3)] text-[var(--color-ink-2)] font-mono">
+                    github ↗
+                </a>
+                <a href="https://telegram.me/initiapulsebot" target="_blank" class="btn-hallmark px-3 py-1.5 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-mono font-bold">
+                    feedback ↗
+                </a>
+                <button onclick="refreshAll()" class="btn-hallmark px-3 py-1.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] hover:bg-[var(--color-paper-3)] text-[var(--color-ink-2)] font-mono" title="Refresh live telemetry">
+                    sync [r]
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Metric Grid (Hallmark High-Density Tabular Layout) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-0 border border-[var(--color-rule)] bg-[var(--color-paper-2)] divide-y lg:divide-y-0 lg:divide-x divide-[var(--color-rule)]">
+            <div class="p-4 space-y-1">
+                <div class="text-[10px] text-[var(--color-muted)] uppercase tracking-wider">01 // SPOT_PRICE (BINANCE)</div>
+                <div class="text-xl md:text-2xl font-bold text-[var(--color-ink)]" id="kpi-price">$0.1830 USD</div>
+                <div class="text-[10px] text-[var(--color-muted)] font-mono" id="kpi-fdv">1.0B Fixed Supply ($183.0M FDV)</div>
+            </div>
+            <div class="p-4 space-y-1">
+                <div class="text-[10px] text-[var(--color-muted)] uppercase tracking-wider">02 // VIP_STAGE_WEIGHT_POOL</div>
+                <div class="text-xl md:text-2xl font-bold text-[var(--color-accent)]" id="kpi-vip-pool">538,461 INIT</div>
+                <div class="text-[10px] text-[var(--color-muted)] font-mono" id="kpi-vip-pool-usd">~$98.5k / 14-Day Cycle (17.5M/yr)</div>
+            </div>
+            <div class="p-4 space-y-1">
+                <div class="text-[10px] text-[var(--color-muted)] uppercase tracking-wider">03 // ENSHRINED_LP_EMISSIONS</div>
+                <div class="text-xl md:text-2xl font-bold text-[var(--color-ink)]" id="kpi-el-pool">12,500,000 INIT</div>
+                <div class="text-[10px] text-[var(--color-muted)] font-mono" id="kpi-el-pool-usd">Block-by-Block ($2.29M/yr whitelisted)</div>
+            </div>
+            <div class="p-4 space-y-1">
+                <div class="text-[10px] text-[var(--color-muted)] uppercase tracking-wider">04 // MAX_BLENDED_APY</div>
+                <div class="text-xl md:text-2xl font-bold text-[var(--color-accent)]" id="kpi-max-apr">48.2% APY</div>
+                <div class="text-[10px] text-[var(--color-muted)] font-mono">EL Staking + VIP Bribes</div>
+            </div>
+        </div>
+
+        <!-- Terminal Tabs -->
+        <div class="flex flex-wrap gap-2 border-b border-[var(--color-rule)] pb-2 text-xs">
+            <button onclick="switchTab('gauges')" id="tab-btn-gauges" class="tab-btn active px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-ink)] font-mono btn-hallmark">
+                [ 1 ] VIP Gauge Wars
+            </button>
+            <button onclick="switchTab('enshrined')" id="tab-btn-enshrined" class="tab-btn px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-muted)] font-mono btn-hallmark">
+                [ 2 ] Enshrined Liquidity
+            </button>
+            <button onclick="switchTab('staker')" id="tab-btn-staker" class="tab-btn px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-muted)] font-mono btn-hallmark">
+                [ 3 ] Staker Yield Router
+            </button>
+            <button onclick="switchTab('rollup')" id="tab-btn-rollup" class="tab-btn px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-muted)] font-mono btn-hallmark">
+                [ 4 ] Minitia Bribe ROI
+            </button>
+        </div>
+
+        <!-- TAB 1: VIP Gauge Wars -->
+        <div id="tab-gauges" class="space-y-4">
+            <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-4 md:p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 mb-4 border-b border-[var(--color-rule)] gap-2">
+                    <div>
+                        <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                            <span>#</span> Active VIP Gauge Voting Cycle #14
+                        </div>
+                        <p class="text-[11px] text-[var(--color-muted)] mt-0.5">
+                            Minitia rollups competing for the 538,461 INIT 2-week Weight Pool. Single L2 weight is clamped at 40% cap.
+                        </p>
+                    </div>
+                    <div class="text-[11px] font-mono text-[var(--color-muted)]">
+                        STAGE_CLOSING: <span class="text-[var(--color-accent)] font-bold">4d 12h 45m</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left font-mono">
+                        <thead class="text-[var(--color-muted)] border-b border-[var(--color-rule)] text-[10px] uppercase">
+                            <tr>
+                                <th class="py-2.5">Rollup / Minitia</th>
+                                <th>VM Stack</th>
+                                <th>Category</th>
+                                <th>Gauge Votes</th>
+                                <th>Vote Share</th>
+                                <th>Bribe Pool</th>
+                                <th>Bribe APR</th>
+                                <th>Projected Reward</th>
+                                <th class="text-right pr-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gauges-tbody" class="divide-y divide-[var(--color-rule)]">
+                            <tr><td colspan="9" class="text-center py-6 text-[var(--color-muted)]">Loading live gauge metrics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Enshrined Liquidity -->
+        <div id="tab-enshrined" class="space-y-4 hidden">
+            <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-4 md:p-6">
+                <div class="pb-4 mb-4 border-b border-[var(--color-rule)]">
+                    <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                        <span>#</span> Whitelisted Enshrined Liquidity Pools (InitiaDEX)
+                    </div>
+                    <p class="text-[11px] text-[var(--color-muted)] mt-0.5">
+                        Governance-approved LP tokens staked with L1 validators to guarantee inter-rollup liquidity while earning swap fees.
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left font-mono">
+                        <thead class="text-[var(--color-muted)] border-b border-[var(--color-rule)] text-[10px] uppercase">
+                            <tr>
+                                <th class="py-2.5">Pool Pair</th>
+                                <th>Pool Type</th>
+                                <th>Gov Weight (w_a)</th>
+                                <th>Reward Share</th>
+                                <th>TVL (USD)</th>
+                                <th>Staking APR</th>
+                                <th>Fee APR</th>
+                                <th>Blended APR</th>
+                                <th class="text-right pr-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="enshrined-tbody" class="divide-y divide-[var(--color-rule)]">
+                            <tr><td colspan="9" class="text-center py-6 text-[var(--color-muted)]">Loading Enshrined Liquidity data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Staker Yield Simulator -->
+        <div id="tab-staker" class="space-y-4 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-6 space-y-4">
+                    <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                        <span>#</span> Capital Yield Simulator
+                    </div>
+                    <p class="text-[11px] text-[var(--color-muted)] leading-relaxed">
+                        Compare mathematical yield curves across pure INIT L1 staking, Enshrined Liquidity (INIT-USDC), and active VIP gauge bribe maximization.
+                    </p>
+                    <div>
+                        <label class="block text-[10px] font-mono text-[var(--color-muted)] uppercase mb-1.5">Input Capital (USD)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2 text-[var(--color-muted)] font-mono">$</span>
+                            <input id="input-capital" type="number" value="10000" step="1000" oninput="calculateStakerYield()" 
+                                class="w-full bg-[var(--color-paper)] border border-[var(--color-rule-2)] rounded-none px-7 py-2 text-[var(--color-ink)] font-mono focus:border-[var(--color-accent)] focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-[var(--color-rule)] space-y-2 text-[11px] font-mono">
+                        <div class="text-[var(--color-muted)] uppercase">Optimal Router Pick:</div>
+                        <div id="recom-title" class="font-bold text-[var(--color-accent)] text-sm">InitiaPulse Maximizer</div>
+                        <div id="recom-extra" class="text-[var(--color-ink-2)]">+$1,450.00 / yr extra yield</div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-6">
+                    <div class="font-bold text-[var(--color-ink)] mb-4 flex items-center gap-2">
+                        <span>#</span> Strategy Yield Routing Output
+                    </div>
+                    <div id="staker-results" class="space-y-3 font-mono">
+                        <!-- Dynamic Strategies Injected Here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Minitia Bribe ROI -->
+        <div id="tab-rollup" class="space-y-4 hidden">
+            <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-6">
+                <div class="pb-4 mb-6 border-b border-[var(--color-rule)]">
+                    <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                        <span>#</span> Minitia Bribe ROI & Gauge Subsidy Simulator
+                    </div>
+                    <p class="text-[11px] text-[var(--color-muted)] mt-0.5">
+                        Calculate exact bribe capital required to capture targeted percentage of the 538,461 INIT 14-day Weight Pool before hitting the 40% cap.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5 font-mono">
+                                <label class="text-[10px] text-[var(--color-muted)] uppercase">Target Stage Weight Share</label>
+                                <span id="share-label" class="font-bold text-[var(--color-accent)] text-sm">15.0%</span>
+                            </div>
+                            <input id="input-share" type="range" min="1" max="40" step="0.5" value="15" oninput="calculateRollupROI()" 
+                                class="w-full accent-[var(--color-accent)] bg-[var(--color-paper)] h-2 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-[var(--color-muted)] font-mono mt-1">
+                                <span>1% (Bootstrap)</span>
+                                <span class="text-[var(--color-warn)]">40% (Single-L2 Protocol Cap)</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[11px] text-[var(--color-muted)] font-mono leading-relaxed">
+                            <span class="text-[var(--color-accent)]"># FORMULA:</span> r_a = (w_a * r_total) / sum(w_i)<br>
+                            Under current testnet weights, each $1.00 in voter bribes captures ~$5.5x in $INIT VIP incentives (~$0.18 cost benchmark).
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 font-mono">
+                        <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                            <span class="text-[10px] text-[var(--color-muted)] block uppercase">Needed Gauge Votes</span>
+                            <span id="roi-votes" class="text-base font-bold text-[var(--color-ink)]">18,423,529</span>
+                        </div>
+                        <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                            <span class="text-[10px] text-[var(--color-muted)] block uppercase">Stage Reward ($INIT)</span>
+                            <span id="roi-init" class="text-base font-bold text-[var(--color-accent)]">80,769 INIT</span>
+                        </div>
+                        <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                            <span class="text-[10px] text-[var(--color-muted)] block uppercase">Est. Bribe Cost</span>
+                            <span id="roi-bribe" class="text-base font-bold text-[var(--color-warn)]">$2,683 USD</span>
+                        </div>
+                        <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                            <span class="text-[10px] text-[var(--color-muted)] block uppercase">Net Surplus / Stage</span>
+                            <span id="roi-net" class="text-base font-bold text-[var(--color-accent)]">+$12,198 USD</span>
+                        </div>
+                        <div class="col-span-2 p-3 border border-[var(--color-accent)] bg-[var(--color-accent-wash)]">
+                            <div class="text-[11px] text-[var(--color-ink)] font-bold" id="roi-annual">
+                                Annualized Runrate: +$317,148 Net Value • 5.5x Bribe Multiplier
+                            </div>
+                        </div>
+                        <div class="col-span-2 pt-2">
+                            <a href="https://app.initia.xyz/stake" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
+                                COMMIT BRIBES & GAUGE VOTES ON INITIA ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminal Colophon Footer -->
+        <footer class="pt-6 border-t border-[var(--color-rule)] text-[11px] font-mono text-[var(--color-muted)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <div>
+                INITIAPULSE // BUILT FOR THE INITIA INTERWOVEN ECOSYSTEM (MOVE • WASM • EVM)
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="https://github.com/manja316/initiapulse" target="_blank" class="hover:text-[var(--color-ink)]">github (mit)</a>
+                <a href="https://telegram.me/initiapulsebot" target="_blank" class="hover:text-[var(--color-accent)]">@initiapulsebot</a>
+                <a href="https://telegram.me/initiapulsebot" target="_blank" class="hover:text-[var(--color-accent)]">feedback</a>
+                <a href="/grant_proposal" target="_blank" class="hover:text-[var(--color-ink)]">grant spec v1.0</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts (100% Wiring Preserved) -->
+    <script>
+        function switchTab(tabId) {
+            ['gauges', 'enshrined', 'staker', 'rollup'].forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('tab-btn-' + t).classList.remove('active');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-btn-' + tabId).classList.add('active');
+        }
+
+        async function fetchNetworkStatus() {
+            try {
+                const r = await fetch('/api/v1/network-status');
+                const d = await r.json();
+                document.getElementById('chain-name').innerText = `${d.chain_id}: Block #${d.latest_height.toLocaleString()}`;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function fetchGauges() {
+            const r = await fetch('/api/v1/vip-gauges');
+            const data = await r.json();
+            const tbody = document.getElementById('gauges-tbody');
+            tbody.innerHTML = data.map(g => `
+                <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
+                    <td class="py-2.5 font-bold text-[var(--color-ink)]">
+                        ${g.name}
+                    </td>
+                    <td><span class="px-1.5 py-0.5 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[10px] text-[var(--color-ink-2)]">${g.vm}</span></td>
+                    <td class="text-[var(--color-muted)]">${g.category}</td>
+                    <td class="text-[var(--color-ink)]">${g.votes.toLocaleString()}</td>
+                    <td>
+                        <span class="font-bold ${g.capped ? 'text-[var(--color-warn)]' : 'text-[var(--color-accent)]'}">${g.vote_share_pct}%</span>
+                        ${g.capped ? '<span class="text-[9px] text-[var(--color-warn)] px-1 border border-[var(--color-warn)] bg-[var(--color-warn-wash)] ml-1">40% CAP</span>' : ''}
+                    </td>
+                    <td class="text-[var(--color-ink)]">$${g.bribe_pool_usd.toLocaleString()}</td>
+                    <td class="text-[var(--color-accent)] font-bold">${g.bribe_apr}%</td>
+                    <td>
+                        <span class="text-[var(--color-ink)] font-bold">${g.projected_stage_init.toLocaleString()} INIT</span>
+                        <span class="text-[10px] text-[var(--color-muted)] block">($${g.projected_stage_usd.toLocaleString()})</span>
+                    </td>
+                    <td class="text-right pr-2">
+                        <a href="https://app.initia.xyz/stake" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
+                            VOTE ↗
+                        </a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function fetchEnshrined() {
+            const r = await fetch('/api/v1/enshrined-pools');
+            const data = await r.json();
+            const tbody = document.getElementById('enshrined-tbody');
+            tbody.innerHTML = data.map(p => `
+                <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
+                    <td class="py-2.5 font-bold text-[var(--color-ink)]">${p.pair}</td>
+                    <td class="text-[var(--color-muted)]">${p.dex}</td>
+                    <td class="text-[var(--color-accent)]">${p.gov_weight}</td>
+                    <td class="text-[var(--color-ink)]">${p.weight_share_pct}%</td>
+                    <td class="text-[var(--color-ink)]">$${p.tvl_usd.toLocaleString()}</td>
+                    <td class="text-[var(--color-ink-2)]">${p.staking_apr}%</td>
+                    <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
+                    <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
+                    <td class="text-right pr-2">
+                        <a href="https://app.initia.xyz/pools" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
+                            DEPOSIT LP ↗
+                        </a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function calculateStakerYield() {
+            const cap = parseFloat(document.getElementById('input-capital').value) || 10000;
+            const r = await fetch('/api/v1/staker-calculator?capital_usd=' + cap);
+            const d = await r.json();
+            
+            document.getElementById('recom-title').innerText = d.optimal_recommendation;
+            document.getElementById('recom-extra').innerText = `+$${d.additional_annual_profit.toLocaleString()} / yr extra yield`;
+
+            const container = document.getElementById('staker-results');
+            container.innerHTML = d.strategies.map((s, idx) => `
+                <div class="p-3 border ${idx === 2 ? 'border-[var(--color-accent)] bg-[var(--color-paper-3)]' : 'border-[var(--color-rule)] bg-[var(--color-paper)]'} flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[var(--color-ink)] text-xs">${s.name}</span>
+                            ${idx === 2 ? '<span class="text-[9px] px-1.5 py-0.2 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] font-bold uppercase">Optimal</span>' : ''}
+                        </div>
+                        <span class="text-[10px] text-[var(--color-muted)] mt-0.5 block">${s.risk} • ${s.effort}</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <span class="text-base font-bold text-[var(--color-accent)]">${s.apr}% APY</span>
+                            <span class="text-[10px] text-[var(--color-muted)] block">+$${s.annual_yield_usd.toLocaleString()} / year</span>
+                        </div>
+                        <a href="${idx === 1 ? 'https://app.initia.xyz/pools' : 'https://app.initia.xyz/stake'}" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
+                            EXECUTE ↗
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function calculateRollupROI() {
+            const share = parseFloat(document.getElementById('input-share').value) || 15;
+            document.getElementById('share-label').innerText = share.toFixed(1) + '%';
+            
+            const r = await fetch('/api/v1/rollup-roi?target_share_pct=' + share);
+            const d = await r.json();
+
+            document.getElementById('roi-votes').innerText = d.needed_gauge_votes.toLocaleString();
+            document.getElementById('roi-init').innerText = d.stage_init_reward.toLocaleString() + ' INIT';
+            document.getElementById('roi-bribe').innerText = '$' + d.est_bribe_cost_stage_usd.toLocaleString() + ' USD';
+            document.getElementById('roi-net').innerText = '+$' + d.net_surplus_stage_usd.toLocaleString() + ' USD';
+            document.getElementById('roi-annual').innerText = `Annualized Runrate: +$${d.annualized_net_surplus_usd.toLocaleString()} Net Value • ${d.bribe_multiplier}`;
+        }
+
+        async function fetchOverview() {
+            try {
+                const r = await fetch('/api/v1/overview');
+                const d = await r.json();
+                document.getElementById('kpi-price').innerText = `$${d.init_price_usd.toFixed(4)} USD`;
+                document.getElementById('kpi-fdv').innerText = `1.0B Fixed Supply ($${(d.fdv_est / 1e6).toFixed(1)}M FDV • Live Binance)`;
+                document.getElementById('kpi-vip-pool-usd').innerText = `~$${(d.vip_rewards.weight_pool_usd_per_stage / 1e3).toFixed(1)}k / 14-Day Cycle`;
+                document.getElementById('kpi-el-pool-usd').innerText = `Block-by-Block ($${(d.enshrined_liquidity.annual_emission_usd / 1e6).toFixed(2)}M/yr)`;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function refreshAll() {
+            await fetchNetworkStatus();
+            await fetchOverview();
+            await fetchGauges();
+            await fetchEnshrined();
+            await calculateStakerYield();
+            await calculateRollupROI();
+        }
+
+        // Initialize on load
+        refreshAll();
+        setInterval(fetchNetworkStatus, 6000);
+        setInterval(fetchOverview, 30000);
+    </script>
+</body>
+</html>
