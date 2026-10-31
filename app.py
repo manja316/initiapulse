@@ -592,6 +592,7 @@ def process_tg_update(update: dict):
         send_tg_message(chat_id, grant_msg)
 
 @app.post("/api/telegram-webhook")
+@app.post("/telegram-webhook")
 @app.post("/api/index/api/telegram-webhook")
 async def telegram_webhook(request: Request):
     try:
