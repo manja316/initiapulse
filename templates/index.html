@@ -80,6 +80,19 @@
             </div>
         </div>
 
+        <!-- Network Incident Alert Notice -->
+        <div class="p-3 border border-[var(--color-warn)] bg-[var(--color-warn-wash)] flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[11px] font-mono">
+            <div class="flex items-center gap-2">
+                <span class="text-[var(--color-warn)] font-bold">⚠️ NETWORK_STATUS:</span>
+                <span class="text-[var(--color-ink)]">
+                    Initia L1 & rollups are temporarily halted (MoveVM patch in progress). App functionalities may be restricted by the foundation.
+                </span>
+            </div>
+            <a href="https://x.com/initia/status/2113661738625155217" target="_blank" class="px-2.5 py-1 border border-[var(--color-warn)] text-[var(--color-warn)] hover:bg-[var(--color-warn)] hover:text-[var(--color-paper)] font-bold text-[10px] whitespace-nowrap transition-colors">
+                VIEW STATUS ON X ↗
+            </a>
+        </div>
+
         <!-- Main Terminal Header -->
         <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-4 border-b border-[var(--color-rule)]">
             <div>
@@ -316,7 +329,7 @@
                             </div>
                         </div>
                         <div class="col-span-2 pt-2">
-                            <a href="https://app.initia.xyz/stake" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
+                            <a href="https://app.initia.xyz/vip/gauge-vote" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
                                 COMMIT BRIBES & GAUGE VOTES ON INITIA ↗
                             </a>
                         </div>
@@ -384,7 +397,7 @@
                         <span class="text-[10px] text-[var(--color-muted)] block">($${g.projected_stage_usd.toLocaleString()})</span>
                     </td>
                     <td class="text-right pr-2">
-                        <a href="https://app.initia.xyz/stake" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
+                        <a href="https://app.initia.xyz/vip/gauge-vote" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
                             VOTE ↗
                         </a>
                     </td>
@@ -407,7 +420,7 @@
                     <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
                     <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
                     <td class="text-right pr-2">
-                        <a href="https://app.initia.xyz/pools" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
+                        <a href="https://app.initia.xyz/liquidity" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
                             DEPOSIT LP ↗
                         </a>
                     </td>
@@ -438,7 +451,7 @@
                             <span class="text-base font-bold text-[var(--color-accent)]">${s.apr}% APY</span>
                             <span class="text-[10px] text-[var(--color-muted)] block">+$${s.annual_yield_usd.toLocaleString()} / year</span>
                         </div>
-                        <a href="${idx === 1 ? 'https://app.initia.xyz/pools' : 'https://app.initia.xyz/stake'}" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
+                        <a href="${idx === 1 ? 'https://app.initia.xyz/liquidity' : 'https://app.initia.xyz/vip/lock-stake'}" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
                             EXECUTE ↗
                         </a>
                     </div>
