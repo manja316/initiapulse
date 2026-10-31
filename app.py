@@ -137,8 +137,8 @@ def index():
                 <span class="text-xs font-semibold text-gray-400">INIT TOKEN PRICE</span>
                 <i class="fa-solid fa-coins text-blue-400 text-sm"></i>
             </div>
-            <div class="text-2xl font-bold text-white mt-1.5" id="kpi-price">$2.40 USD</div>
-            <div class="text-[11px] text-gray-400 mt-1">1.0B Fixed Supply ($2.4B FDV)</div>
+            <div class="text-2xl font-bold text-white mt-1.5" id="kpi-price">$0.1830 USD</div>
+            <div class="text-[11px] text-gray-400 mt-1" id="kpi-fdv">1.0B Fixed Supply ($183.0M FDV • Live Binance)</div>
         </div>
         <div class="glass p-4 rounded-xl border-l-4 border-indigo-500">
             <div class="flex justify-between items-start">
@@ -146,7 +146,7 @@ def index():
                 <i class="fa-solid fa-trophy text-indigo-400 text-sm"></i>
             </div>
             <div class="text-2xl font-bold text-indigo-400 mt-1.5" id="kpi-vip-pool">538,461 INIT</div>
-            <div class="text-[11px] text-gray-400 mt-1">~$1.29M / 2-Week Stage (17.5M/yr)</div>
+            <div class="text-[11px] text-gray-400 mt-1" id="kpi-vip-pool-usd">~$98.5k / 2-Week Stage (17.5M/yr)</div>
         </div>
         <div class="glass p-4 rounded-xl border-l-4 border-purple-500">
             <div class="flex justify-between items-start">
@@ -154,14 +154,14 @@ def index():
                 <i class="fa-solid fa-droplet text-purple-400 text-sm"></i>
             </div>
             <div class="text-2xl font-bold text-purple-400 mt-1.5" id="kpi-el-pool">12.5M INIT/yr</div>
-            <div class="text-[11px] text-gray-400 mt-1">Block-by-Block ($30.0M Annual USD)</div>
+            <div class="text-[11px] text-gray-400 mt-1" id="kpi-el-pool-usd">Block-by-Block ($2.29M Annual USD)</div>
         </div>
         <div class="glass p-4 rounded-xl border-l-4 border-emerald-500">
             <div class="flex justify-between items-start">
                 <span class="text-xs font-semibold text-gray-400">MAX BLENDED APY</span>
                 <i class="fa-solid fa-bolt text-emerald-400 text-sm"></i>
             </div>
-            <div class="text-2xl font-bold text-emerald-400 mt-1.5" id="kpi-max-apr">43.8% APY</div>
+            <div class="text-2xl font-bold text-emerald-400 mt-1.5" id="kpi-max-apr">48.2% APY</div>
             <div class="text-[11px] text-emerald-400/80 mt-1">Dual Yield + Gauge Bribes</div>
         </div>
     </div>
@@ -209,10 +209,11 @@ def index():
                             <th>Bribe Pool</th>
                             <th>Bribe APR</th>
                             <th>Projected Stage Reward</th>
+                            <th class="text-right pr-3">Action</th>
                         </tr>
                     </thead>
                     <tbody id="gauges-tbody" class="divide-y divide-gray-800/60 font-mono">
-                        <tr><td colspan="8" class="text-center py-6 text-gray-500">Loading live gauge metrics...</td></tr>
+                        <tr><td colspan="9" class="text-center py-6 text-gray-500">Loading live gauge metrics...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -243,10 +244,11 @@ def index():
                             <th>Staking APR</th>
                             <th>Swap Fee APR</th>
                             <th>Blended APR</th>
+                            <th class="text-right pr-3">Action</th>
                         </tr>
                     </thead>
                     <tbody id="enshrined-tbody" class="divide-y divide-gray-800/60 font-mono">
-                        <tr><td colspan="8" class="text-center py-6 text-gray-500">Loading Enshrined Liquidity data...</td></tr>
+                        <tr><td colspan="9" class="text-center py-6 text-gray-500">Loading Enshrined Liquidity data...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -327,6 +329,11 @@ def index():
                         <span id="roi-net" class="text-2xl font-bold text-emerald-400">+$158,954.00 USD</span>
                         <div class="text-[11px] text-gray-400 mt-1" id="roi-annual">Annualized Runrate: +$4.13M Net Value</div>
                     </div>
+                    <div class="col-span-2 md:col-span-3 pt-1">
+                        <a href="https://app.initia.xyz/stake" target="_blank" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-blue-500/20">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Commit Bribes & Gauge Votes on Initia
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -387,6 +394,11 @@ def index():
                         <span class="text-white font-bold">${g.projected_stage_init.toLocaleString()} INIT</span>
                         <span class="text-[10px] text-gray-500 block">($${g.projected_stage_usd.toLocaleString()})</span>
                     </td>
+                    <td class="text-right pr-3">
+                        <a href="https://app.initia.xyz/stake" target="_blank" class="px-2.5 py-1 rounded bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 font-sans font-semibold text-[11px] inline-flex items-center gap-1 transition">
+                            Vote ↗
+                        </a>
+                    </td>
                 </tr>
             `).join('');
         }
@@ -405,6 +417,11 @@ def index():
                     <td class="text-purple-400">${p.staking_apr}%</td>
                     <td class="text-gray-400">${p.fee_apr}%</td>
                     <td class="text-emerald-400 font-bold text-sm">${p.blended_apr}%</td>
+                    <td class="text-right pr-3">
+                        <a href="https://app.initia.xyz/pools" target="_blank" class="px-2.5 py-1 rounded bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 font-sans font-semibold text-[11px] inline-flex items-center gap-1 transition">
+                            Deposit LP ↗
+                        </a>
+                    </td>
                 </tr>
             `).join('');
         }
@@ -427,9 +444,14 @@ def index():
                         </div>
                         <span class="text-xs text-gray-400 mt-0.5 block">${s.risk} • ${s.effort}</span>
                     </div>
-                    <div class="text-right">
-                        <span class="text-lg font-bold text-emerald-400">${s.apr}% APY</span>
-                        <span class="text-xs text-gray-300 block font-mono">+$${s.annual_yield_usd.toLocaleString()} / year</span>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-emerald-400">${s.apr}% APY</span>
+                            <span class="text-xs text-gray-300 block font-mono">+$${s.annual_yield_usd.toLocaleString()} / year</span>
+                        </div>
+                        <a href="${idx === 1 ? 'https://app.initia.xyz/pools' : 'https://app.initia.xyz/stake'}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 font-semibold text-xs transition">
+                            Execute ↗
+                        </a>
                     </div>
                 </div>
             `).join('');
@@ -449,8 +471,22 @@ def index():
             document.getElementById('roi-annual').innerText = `Annualized Runrate: +$${d.annualized_net_surplus_usd.toLocaleString()} Net Value • ${d.bribe_multiplier}`;
         }
 
+        async function fetchOverview() {
+            try {
+                const r = await fetch('/api/v1/overview');
+                const d = await r.json();
+                document.getElementById('kpi-price').innerText = `$${d.init_price_usd.toFixed(4)} USD`;
+                document.getElementById('kpi-fdv').innerText = `1.0B Fixed Supply ($${(d.fdv_est / 1e6).toFixed(1)}M FDV • Live Binance)`;
+                document.getElementById('kpi-vip-pool-usd').innerText = `~$${(d.vip_rewards.weight_pool_usd_per_stage / 1e3).toFixed(1)}k / 2-Week Stage`;
+                document.getElementById('kpi-el-pool-usd').innerText = `Block-by-Block ($${(d.enshrined_liquidity.annual_emission_usd / 1e6).toFixed(2)}M/yr)`;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
         async function refreshAll() {
             await fetchNetworkStatus();
+            await fetchOverview();
             await fetchGauges();
             await fetchEnshrined();
             await calculateStakerYield();
@@ -460,6 +496,7 @@ def index():
         // Initialize on load
         refreshAll();
         setInterval(fetchNetworkStatus, 6000);
+        setInterval(fetchOverview, 30000);
     </script>
 </body>
 </html>

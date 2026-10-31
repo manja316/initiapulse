@@ -9,6 +9,7 @@ Implements the exact mathematical formulas for:
 
 from typing import Dict, Any, List
 import time
+import requests
 
 class InitiaAnalyticsEngine:
     def __init__(self):
@@ -29,29 +30,47 @@ class InitiaAnalyticsEngine:
         self.BALANCE_POOL_PER_STAGE = self.VIP_STAGE_TOTAL * self.POOL_SPLIT_RATIO  # ~134,615 INIT
         self.MAX_ROLLUP_WEIGHT_RATIO = 0.40  # 40% cap per single L2
 
-        # Benchmark INIT Price Estimate (Conservative / Dynamic)
-        self.init_price_usd = 2.40
+        # Live INIT Price from Binance Spot (default $0.1830 USD)
+        self.init_price_usd = 0.1830
+        self._last_price_fetch = 0.0
+
+    def refresh_live_price(self) -> float:
+        """Fetch live spot price from Binance INITUSDT ticker."""
+        now = time.time()
+        if (now - self._last_price_fetch) < 30.0:
+            return self.init_price_usd
+        try:
+            r = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=INITUSDT", timeout=3)
+            if r.status_code == 200:
+                price = float(r.json().get("price", 0))
+                if price > 0:
+                    self.init_price_usd = round(price, 4)
+                    self._last_price_fetch = now
+        except Exception:
+            pass
+        return self.init_price_usd
 
     def get_tokenomics_overview(self) -> Dict[str, Any]:
+        price = self.refresh_live_price()
         return {
             "total_supply": self.TOTAL_SUPPLY,
             "circulating_pct": "12.0%",
-            "init_price_usd": self.init_price_usd,
-            "market_cap_est": self.TOTAL_SUPPLY * 0.12 * self.init_price_usd,
-            "fdv_est": self.TOTAL_SUPPLY * self.init_price_usd,
+            "init_price_usd": price,
+            "market_cap_est": self.TOTAL_SUPPLY * 0.12 * price,
+            "fdv_est": self.TOTAL_SUPPLY * price,
             "enshrined_liquidity": {
                 "total_allocation": self.EL_TOTAL_ALLOCATION,
                 "annual_emission": self.EL_ANNUAL_EMISSION,
-                "annual_emission_usd": self.EL_ANNUAL_EMISSION * self.init_price_usd,
+                "annual_emission_usd": self.EL_ANNUAL_EMISSION * price,
                 "daily_emission": self.EL_ANNUAL_EMISSION / 365.0
             },
             "vip_rewards": {
                 "total_allocation": self.VIP_TOTAL_ALLOCATION,
                 "annual_emission": self.VIP_ANNUAL_EMISSION,
-                "annual_emission_usd": self.VIP_ANNUAL_EMISSION * self.init_price_usd,
+                "annual_emission_usd": self.VIP_ANNUAL_EMISSION * price,
                 "stage_interval_days": 14,
                 "weight_pool_per_stage": self.WEIGHT_POOL_PER_STAGE,
-                "weight_pool_usd_per_stage": self.WEIGHT_POOL_PER_STAGE * self.init_price_usd
+                "weight_pool_usd_per_stage": self.WEIGHT_POOL_PER_STAGE * price
             }
         }
 
@@ -59,12 +78,13 @@ class InitiaAnalyticsEngine:
         """
         Calculates r_a = (w_a * r_total) / sum(w_i) for whitelisted InitiaDEX pools.
         """
+        price = self.refresh_live_price()
         raw_pools = [
-            {"id": "pool-init-usdc", "pair": "INIT-USDC", "dex": "InitiaDEX (Balancer 50/50)", "weight": 40.0, "tvl_usd": 18_500_000.0, "swap_fee_24h_usd": 12_400.0},
-            {"id": "pool-init-eth", "pair": "INIT-ETH", "dex": "InitiaDEX (Balancer 60/40)", "weight": 25.0, "tvl_usd": 14_200_000.0, "swap_fee_24h_usd": 8_900.0},
-            {"id": "pool-init-tia", "pair": "INIT-TIA", "dex": "InitiaDEX (Balancer 50/50)", "weight": 15.0, "tvl_usd": 7_800_000.0, "swap_fee_24h_usd": 4_200.0},
-            {"id": "pool-init-tuc", "pair": "INIT-TUC", "dex": "InitiaDEX (Balancer 50/50)", "weight": 12.0, "tvl_usd": 5_400_000.0, "swap_fee_24h_usd": 3_100.0},
-            {"id": "pool-init-bkw", "pair": "INIT-BKW", "dex": "InitiaDEX (Balancer 50/50)", "weight": 8.0, "tvl_usd": 3_600_000.0, "swap_fee_24h_usd": 2_200.0},
+            {"id": "pool-init-usdc", "pair": "INIT-USDC", "dex": "InitiaDEX (Balancer 50/50)", "weight": 40.0, "tvl_usd": 2_500_000.0, "swap_fee_24h_usd": 1_850.0},
+            {"id": "pool-init-eth", "pair": "INIT-ETH", "dex": "InitiaDEX (Balancer 60/40)", "weight": 25.0, "tvl_usd": 1_800_000.0, "swap_fee_24h_usd": 1_200.0},
+            {"id": "pool-init-tia", "pair": "INIT-TIA", "dex": "InitiaDEX (Balancer 50/50)", "weight": 15.0, "tvl_usd": 950_000.0, "swap_fee_24h_usd": 680.0},
+            {"id": "pool-init-tuc", "pair": "INIT-TUC", "dex": "InitiaDEX (Balancer 50/50)", "weight": 12.0, "tvl_usd": 650_000.0, "swap_fee_24h_usd": 420.0},
+            {"id": "pool-init-bkw", "pair": "INIT-BKW", "dex": "InitiaDEX (Balancer 50/50)", "weight": 8.0, "tvl_usd": 450_000.0, "swap_fee_24h_usd": 280.0},
         ]
         total_weight = sum(p["weight"] for p in raw_pools)
         
@@ -72,7 +92,7 @@ class InitiaAnalyticsEngine:
         for p in raw_pools:
             share = p["weight"] / total_weight
             annual_init_rewards = self.EL_ANNUAL_EMISSION * share
-            annual_reward_usd = annual_init_rewards * self.init_price_usd
+            annual_reward_usd = annual_init_rewards * price
             annual_swap_fees_usd = p["swap_fee_24h_usd"] * 365.0
             total_annual_yield_usd = annual_reward_usd + annual_swap_fees_usd
             
@@ -98,12 +118,13 @@ class InitiaAnalyticsEngine:
         """
         VIP Gauge weight distributions and projected INIT rewards per 2-week cycle.
         """
+        price = self.refresh_live_price()
         rollups = [
-            {"id": "tucana", "name": "Tucana Network", "vm": "MiniEVM", "category": "DEX & Perps", "votes": 34_500_000, "active_users": 18_400, "bribe_pool_usd": 125_000.0},
-            {"id": "blackwing", "name": "Blackwing", "vm": "MiniWasm", "category": "Modular Margin Trading", "votes": 28_200_000, "active_users": 14_100, "bribe_pool_usd": 90_000.0},
-            {"id": "milkyway", "name": "MilkyWay Rollup", "vm": "MiniMove", "category": "Liquid Staking", "votes": 19_800_000, "active_users": 9_800, "bribe_pool_usd": 65_000.0},
-            {"id": "lunch", "name": "Lunch App", "vm": "MiniEVM", "category": "Web3 Social & Loyalty", "votes": 12_500_000, "active_users": 22_500, "bribe_pool_usd": 35_000.0},
-            {"id": "initia-native", "name": "Civitia / Gaming Minitia", "vm": "MiniMove", "category": "Strategy Gaming", "votes": 9_400_000, "active_users": 31_000, "bribe_pool_usd": 20_000.0},
+            {"id": "tucana", "name": "Tucana Network", "vm": "MiniEVM", "category": "DEX & Perps", "votes": 34_500_000, "active_users": 18_400, "bribe_pool_usd": 25_000.0},
+            {"id": "blackwing", "name": "Blackwing", "vm": "MiniWasm", "category": "Modular Margin Trading", "votes": 28_200_000, "active_users": 14_100, "bribe_pool_usd": 18_000.0},
+            {"id": "milkyway", "name": "MilkyWay Rollup", "vm": "MiniMove", "category": "Liquid Staking", "votes": 19_800_000, "active_users": 9_800, "bribe_pool_usd": 12_000.0},
+            {"id": "lunch", "name": "Lunch App", "vm": "MiniEVM", "category": "Web3 Social & Loyalty", "votes": 12_500_000, "active_users": 22_500, "bribe_pool_usd": 6_500.0},
+            {"id": "initia-native", "name": "Civitia / Gaming Minitia", "vm": "MiniMove", "category": "Strategy Gaming", "votes": 9_400_000, "active_users": 31_000, "bribe_pool_usd": 4_000.0},
         ]
         total_votes = sum(r["votes"] for r in rollups)
 
@@ -114,10 +135,10 @@ class InitiaAnalyticsEngine:
             effective_weight = min(raw_weight, self.MAX_ROLLUP_WEIGHT_RATIO)
             
             stage_init_reward = self.WEIGHT_POOL_PER_STAGE * effective_weight
-            stage_usd_reward = stage_init_reward * self.init_price_usd
+            stage_usd_reward = stage_init_reward * price
             
             # Bribe ROI for staker: (Bribe USD / Vote Cost) annualized
-            vote_value_usd = r["votes"] * self.init_price_usd
+            vote_value_usd = r["votes"] * price
             bribe_apr = (r["bribe_pool_usd"] * (self.STAGES_PER_YEAR) / vote_value_usd) * 100.0 if vote_value_usd > 0 else 0.0
 
             gauges.append({
@@ -133,7 +154,6 @@ class InitiaAnalyticsEngine:
                 "bribe_apr": round(bribe_apr, 2),
                 "projected_stage_init": round(stage_init_reward, 0),
                 "projected_stage_usd": round(stage_usd_reward, 2),
-                "annual_runrate_usd": round(stage_usd_reward * self.STAGES_PER_YEAR, 2)
             })
         return gauges
 
@@ -196,9 +216,10 @@ class InitiaAnalyticsEngine:
         target_share = min(target_reward_share_pct / 100.0, self.MAX_ROLLUP_WEIGHT_RATIO)
         needed_votes = int((target_share / (1.0 - target_share)) * current_total_votes)
         
+        price = self.refresh_live_price()
         # Stage reward capture
         stage_init_captured = self.WEIGHT_POOL_PER_STAGE * target_share
-        stage_usd_captured = stage_init_captured * self.init_price_usd
+        stage_usd_captured = stage_init_captured * price
         
         # Benchmark market bribe efficiency: ~0.15 USD in bribe per 1.00 USD of reward capture
         est_bribe_cost_stage = stage_usd_captured * 0.18
