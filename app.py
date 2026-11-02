@@ -4,6 +4,7 @@ FastAPI Server & Interactive Dashboard
 Serves real-time analytics, live Initia testnet RPC status, and interactive yield calculators.
 """
 
+import os
 import sys
 import json
 import requests
@@ -111,26 +112,31 @@ FEEDBACK_FILE = Path("/tmp/initiapulse_feedback.json") if Path("/tmp").exists() 
 COMMUNITY_FEEDBACK = []
 
 def record_feedback(sender: str, chat_id: int, content: str):
+    # Defense against resource exhaustion: truncate content and bound history
+    safe_content = str(content)[:500].strip()
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "sender": sender,
+        "sender": str(sender)[:64],
         "chat_id": chat_id,
-        "content": content
+        "content": safe_content
     }
     COMMUNITY_FEEDBACK.append(entry)
-    print(f"[COMMUNITY FEEDBACK] @{sender} ({chat_id}): {content}", flush=True)
+    while len(COMMUNITY_FEEDBACK) > 100:
+        COMMUNITY_FEEDBACK.pop(0)
+    print(f"[COMMUNITY FEEDBACK] @{sender} ({chat_id}): {safe_content}", flush=True)
     try:
         current = []
         if FEEDBACK_FILE.exists():
             with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
                 current = json.load(f)
+        current = current[-99:] # Keep rolling window of last 100 entries max
         current.append(entry)
         with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
             json.dump(current, f, indent=2)
     except Exception as e:
         print(f"[FEEDBACK SAVE ERROR] {e}", flush=True)
 
-TELEGRAM_BOT_TOKEN = "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw"
+TELEGRAM_BOT_TOKEN = os.environ.get("INITIA_TELEGRAM_TOKEN", "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw")
 TELEGRAM_BOT_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
 def send_tg_message(chat_id: int, text: str):
@@ -289,10 +295,17 @@ def get_feedback_records():
             pass
     return {"status": "ok", "count": len(items), "feedback": items}
 
+TELEGRAM_WEBHOOK_SECRET = os.environ.get("TELEGRAM_WEBHOOK_SECRET")
+
 @app.post("/api/telegram-webhook")
 @app.post("/telegram-webhook")
 @app.post("/api/index/api/telegram-webhook")
 async def telegram_webhook(request: Request):
+    # Enforce webhook secret verification when configured
+    if TELEGRAM_WEBHOOK_SECRET:
+        secret_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token")
+        if secret_token != TELEGRAM_WEBHOOK_SECRET:
+            raise HTTPException(status_code=403, detail="Invalid webhook authentication token")
     try:
         data = await request.json()
         process_tg_update(data)

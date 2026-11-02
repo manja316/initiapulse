@@ -12,7 +12,12 @@ from pathlib import Path
 
 # Load environment
 ENV_PATH = Path(__file__).parent / ".env"
-TELEGRAM_TOKEN = "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw"
+TELEGRAM_TOKEN = os.environ.get("INITIA_TELEGRAM_TOKEN", "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw")
+if ENV_PATH.exists() and TELEGRAM_TOKEN == "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw":
+    for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
+        if line.strip().startswith("INITIA_TELEGRAM_TOKEN="):
+            TELEGRAM_TOKEN = line.split("=", 1)[1].strip()
+            break
 TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
 sys.path.insert(0, str(Path(__file__).parent))

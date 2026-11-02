@@ -22,17 +22,21 @@ if hasattr(sys.stdout, "reconfigure"):
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATUS_FILE = BASE_DIR / "recovery_status.json"
 
-TELEGRAM_BOT_TOKEN = "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw"
-TELEGRAM_CHAT_ID = "257190241"
+# Read environment variables / .env
+GH_TOKEN = os.environ.get("GITHUB_TOKEN")
+TELEGRAM_BOT_TOKEN = os.environ.get("INITIA_TELEGRAM_TOKEN", "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "257190241")
 
-# Read GITHUB_TOKEN if available
-GH_TOKEN = None
 env_file = BASE_DIR / ".env"
 if env_file.exists():
     for line in env_file.read_text(encoding="utf-8").splitlines():
-        if line.startswith("GITHUB_TOKEN="):
+        line = line.strip()
+        if line.startswith("GITHUB_TOKEN=") and not GH_TOKEN:
             GH_TOKEN = line.split("=", 1)[1].strip()
-            break
+        elif line.startswith("INITIA_TELEGRAM_TOKEN=") and TELEGRAM_BOT_TOKEN == "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw":
+            TELEGRAM_BOT_TOKEN = line.split("=", 1)[1].strip()
+        elif line.startswith("TELEGRAM_CHAT_ID=") and TELEGRAM_CHAT_ID == "257190241":
+            TELEGRAM_CHAT_ID = line.split("=", 1)[1].strip()
 
 def send_alert(text: str):
     try:

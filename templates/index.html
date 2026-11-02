@@ -379,6 +379,17 @@
             }
         }
 
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/[&<>"']/g, s => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[s]);
+        }
+
         async function fetchGauges() {
             const r = await fetch('/api/v1/vip-gauges');
             const data = await r.json();
@@ -386,10 +397,10 @@
             tbody.innerHTML = data.map(g => `
                 <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
                     <td class="py-2.5 font-bold text-[var(--color-ink)]">
-                        ${g.name}
+                        ${escapeHtml(g.name)}
                     </td>
-                    <td><span class="px-1.5 py-0.5 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[10px] text-[var(--color-ink-2)]">${g.vm}</span></td>
-                    <td class="text-[var(--color-muted)]">${g.category}</td>
+                    <td><span class="px-1.5 py-0.5 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[10px] text-[var(--color-ink-2)]">${escapeHtml(g.vm)}</span></td>
+                    <td class="text-[var(--color-muted)]">${escapeHtml(g.category)}</td>
                     <td class="text-[var(--color-ink)]">${g.votes.toLocaleString()}</td>
                     <td>
                         <span class="font-bold ${g.capped ? 'text-[var(--color-warn)]' : 'text-[var(--color-accent)]'}">${g.vote_share_pct}%</span>
@@ -416,8 +427,8 @@
             const tbody = document.getElementById('enshrined-tbody');
             tbody.innerHTML = data.map(p => `
                 <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
-                    <td class="py-2.5 font-bold text-[var(--color-ink)]">${p.pair}</td>
-                    <td class="text-[var(--color-muted)]">${p.dex}</td>
+                    <td class="py-2.5 font-bold text-[var(--color-ink)]">${escapeHtml(p.pair)}</td>
+                    <td class="text-[var(--color-muted)]">${escapeHtml(p.dex)}</td>
                     <td class="text-[var(--color-accent)]">${p.gov_weight}</td>
                     <td class="text-[var(--color-ink)]">${p.weight_share_pct}%</td>
                     <td class="text-[var(--color-ink)]">$${p.tvl_usd.toLocaleString()}</td>

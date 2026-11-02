@@ -602,15 +602,25 @@ function loadSchema(schemaPath) {
 }
 
 function readFileWithinLimit(file) {
-  const noFollow = fs.constants.O_NOFOLLOW;
-  const nonBlock = fs.constants.O_NONBLOCK;
-  if (!Number.isInteger(noFollow) || noFollow === 0 || !Number.isInteger(nonBlock) || nonBlock === 0) {
+  const isWindows = process.platform === "win32";
+  const noFollow = isWindows ? 0 : fs.constants.O_NOFOLLOW;
+  const nonBlock = isWindows ? 0 : fs.constants.O_NONBLOCK;
+  if (!isWindows && (!Number.isInteger(noFollow) || noFollow === 0 || !Number.isInteger(nonBlock) || nonBlock === 0)) {
     throw new SafeInputError("OS no-follow and nonblocking input protection is unavailable");
+  }
+
+  if (isWindows) {
+    try {
+      const lstat = fs.lstatSync(file);
+      if (lstat.isSymbolicLink()) throw new SafeInputError("input must not be a symlink");
+    } catch (e) {
+      if (e instanceof SafeInputError) throw e;
+    }
   }
 
   let descriptor;
   try {
-    descriptor = fs.openSync(file, fs.constants.O_RDONLY | noFollow | nonBlock);
+    descriptor = fs.openSync(file, fs.constants.O_RDONLY | (noFollow || 0) | (nonBlock || 0));
   } catch (error) {
     if (error && (error.code === "ELOOP" || error.code === "EMLINK")) {
       throw new SafeInputError("input must not be a symlink");
