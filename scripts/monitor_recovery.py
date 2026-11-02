@@ -9,11 +9,15 @@ Logs output to recovery_status.json and alerts via Telegram bot.
 """
 
 import sys
+import os
 import json
 import time
 import requests
 from datetime import datetime, timezone
 from pathlib import Path
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATUS_FILE = BASE_DIR / "recovery_status.json"
@@ -21,8 +25,22 @@ STATUS_FILE = BASE_DIR / "recovery_status.json"
 TELEGRAM_BOT_TOKEN = "9105704694:AAFIWzfaiJhcxiEN7aONh2ciXALEhoKp7uw"
 TELEGRAM_CHAT_ID = "257190241"
 
+# Read GITHUB_TOKEN if available
+GH_TOKEN = None
+env_file = BASE_DIR / ".env"
+if env_file.exists():
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        if line.startswith("GITHUB_TOKEN="):
+            GH_TOKEN = line.split("=", 1)[1].strip()
+            break
+
 def send_alert(text: str):
-    print(f"[ALERT] {text}")
+    try:
+        clean_preview = text.encode("ascii", "replace").decode("ascii")
+        print(f"[ALERT] {clean_preview}")
+    except Exception:
+        pass
+
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
         requests.post(url, json={
@@ -69,10 +87,13 @@ def check_all() -> dict:
 
     # 3. Check GitHub releases
     try:
-        r = requests.get("https://api.github.com/repos/initia-labs/initia/releases", timeout=5, headers={"User-Agent": "InitiaPulse-Monitor"})
+        headers = {"User-Agent": "InitiaPulse-Monitor"}
+        if GH_TOKEN:
+            headers["Authorization"] = f"Bearer {GH_TOKEN}"
+        r = requests.get("https://api.github.com/repos/initia-labs/initia/releases", timeout=5, headers=headers)
         if r.status_code == 200:
             rels = r.json()
-            if rels:
+            if rels and isinstance(rels, list) and len(rels) > 0:
                 latest = rels[0].get("tag_name")
                 result["github_latest_release"] = latest
     except Exception:
@@ -105,7 +126,11 @@ def check_all() -> dict:
         )
         send_alert(msg)
 
-    if prev.get("github_latest_release") and result["github_latest_release"] != prev.get("github_latest_release"):
+    if (
+        result["github_latest_release"]
+        and prev.get("github_latest_release")
+        and result["github_latest_release"] != prev.get("github_latest_release")
+    ):
         msg = (
             "🛠️ <b>INITIA PATCH RELEASE DETECTED!</b>\n\n"
             f"New release tag published: <b>{result['github_latest_release']}</b>\n"
