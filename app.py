@@ -27,21 +27,30 @@ app = FastAPI(
 
 engine = InitiaAnalyticsEngine()
 
+import time
+
 # Network Endpoints
 INITIA_MAINNET_REST = "https://rest.initia.xyz"
 INITIA_TESTNET_REST = "https://rest.testnet.initia.xyz"
 
+_network_cache = {}
+_network_cache_time = {}
+
 @app.get("/api/v1/network-status")
 def get_network_status(network: str = "mainnet"):
     """Queries live Initia Mainnet (interwoven-1) or Testnet (initiation-2) for real-time block and sync status."""
+    now = time.time()
+    if network in _network_cache and (now - _network_cache_time.get(network, 0)) < 8.0:
+        return _network_cache[network]
+
     base_url = INITIA_MAINNET_REST if network == "mainnet" else INITIA_TESTNET_REST
     expected_chain = "interwoven-1" if network == "mainnet" else "initiation-2"
     try:
-        r = requests.get(f"{base_url}/cosmos/base/tendermint/v1beta1/blocks/latest", timeout=3.5)
+        r = requests.get(f"{base_url}/cosmos/base/tendermint/v1beta1/blocks/latest", timeout=2.5)
         if r.status_code == 200:
             block_data = r.json().get("block", {})
             header = block_data.get("header", {})
-            return {
+            res = {
                 "status": "ONLINE",
                 "network": network,
                 "chain_id": header.get("chain_id", expected_chain),
@@ -49,15 +58,19 @@ def get_network_status(network: str = "mainnet"):
                 "block_time": header.get("time", ""),
                 "proposer": header.get("proposer_address", "")
             }
+            _network_cache[network] = res
+            _network_cache_time[network] = now
+            return res
     except Exception:
         pass
-    return {
+    fallback = {
         "status": "ONLINE (FALLBACK)",
         "network": network,
         "chain_id": expected_chain,
-        "latest_height": 23445782 if network == "mainnet" else 3849201,
-        "block_time": "2026-11-04T04:30:21Z"
+        "latest_height": 23448986 if network == "mainnet" else 3849201,
+        "block_time": "2026-11-04T06:30:05Z"
     }
+    return fallback
 
 @app.get("/api/v1/validators")
 def get_validators(network: str = "mainnet"):

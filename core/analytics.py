@@ -249,7 +249,7 @@ class InitiaAnalyticsEngine:
 
         base_url = "https://rest.initia.xyz" if network == "mainnet" else "https://rest.testnet.initia.xyz"
         try:
-            r = requests.get(f"{base_url}/initia/mstaking/v1/validators?pagination.limit=100", timeout=4)
+            r = requests.get(f"{base_url}/initia/mstaking/v1/validators?pagination.limit=100", timeout=(1.5, 2.5))
             if r.status_code == 200:
                 data = r.json()
                 raw_vals = data.get("validators", [])

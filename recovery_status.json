@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-11-04T04:30:21.140634+00:00",
+  "timestamp": "2026-11-04T06:30:05.410348+00:00",
   "app_status": "HTTP_200",
   "app_maintenance": false,
   "mainnet_rpc_online": true,
-  "mainnet_latest_height": 23445782,
+  "mainnet_latest_height": 23448986,
   "github_latest_release": "v1.4.10",
-  "binance_price_usd": 0.13419,
+  "binance_price_usd": 0.12668,
   "signals": [
-    "MAINNET_RPC_ONLINE: Height #23445782"
+    "MAINNET_RPC_ONLINE: Height #23448986"
   ]
 }
