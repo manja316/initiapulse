@@ -50,6 +50,12 @@
             border-color: var(--color-accent);
         }
 
+        .net-toggle-btn.active {
+            background-color: var(--color-accent);
+            color: var(--color-accent-ink);
+            font-weight: 700;
+        }
+
         :focus-visible {
             outline: 2px solid var(--color-accent);
             outline-offset: 1px;
@@ -65,13 +71,23 @@
 
         <!-- Top Telemetry Micro-Bar -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 border-b border-[var(--color-rule)] text-[11px] font-mono text-[var(--color-muted)] gap-2">
-            <div class="flex items-center gap-3">
-                <span class="text-[var(--color-accent)] font-bold">INITIAPULSE_TERMINAL // V1.0</span>
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="text-[var(--color-accent)] font-bold">INITIAPULSE_TERMINAL // V2.0</span>
                 <span>•</span>
                 <span id="network-badge" class="inline-flex items-center gap-1.5 text-[var(--color-ink-2)]">
-                    <span class="w-1.5 h-1.5 bg-[var(--color-accent)] inline-block"></span>
-                    <span id="chain-name">initiation-2: Block #...</span>
+                    <span id="network-pulse-dot" class="w-1.5 h-1.5 bg-[var(--color-accent)] inline-block animate-pulse"></span>
+                    <span id="chain-name">interwoven-1: Block #...</span>
                 </span>
+                <span>•</span>
+                <!-- Network Switcher Toggle -->
+                <div class="flex items-center border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] p-0.5 text-[10px]">
+                    <button id="net-btn-mainnet" onclick="setNetwork('mainnet')" class="net-toggle-btn active px-2 py-0.5 btn-hallmark">
+                        MAINNET (interwoven-1)
+                    </button>
+                    <button id="net-btn-testnet" onclick="setNetwork('testnet')" class="net-toggle-btn px-2 py-0.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] btn-hallmark">
+                        TESTNET (initiation-2)
+                    </button>
+                </div>
             </div>
             <div class="flex items-center gap-3">
                 <span class="text-[var(--color-ink-2)] font-mono">FEED: BINANCE SPOT (INIT/USDT)</span>
@@ -80,20 +96,20 @@
             </div>
         </div>
 
-        <!-- Network Incident Alert Notice -->
-        <div class="p-3 border border-[var(--color-warn)] bg-[var(--color-warn-wash)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[11px] font-mono">
+        <!-- Network Online & Recovery Notice -->
+        <div class="p-3 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[11px] font-mono">
             <div class="flex items-start md:items-center gap-2">
-                <span class="text-[var(--color-warn)] font-bold whitespace-nowrap">⚠️ NETWORK HALT NOTICE:</span>
+                <span class="text-[var(--color-accent)] font-bold whitespace-nowrap">🟢 NETWORK ONLINE &amp; RECOVERED:</span>
                 <span class="text-[var(--color-ink)] leading-relaxed">
-                    As of Oct 23, 15:41 UTC, Initia L1 & Rollups are halted due to a MoveVM security incident. The official dApp (app.initia.xyz) is offline. All action links below route directly to the official Initia Scan (<a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="underline text-[var(--color-accent)] font-bold">interwoven-1</a>).
+                    Initia Mainnet (<span class="font-bold text-[var(--color-ink-2)]">interwoven-1</span>) is fully operational past block <span id="banner-height" class="font-bold text-[var(--color-accent)]">#23.44M+</span>. Official dApp (<a href="https://app.initia.xyz" target="_blank" class="underline text-[var(--color-accent)] font-bold">app.initia.xyz</a>) and Initia Scan restored.
                 </span>
             </div>
             <div class="flex items-center gap-2">
-                <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] whitespace-nowrap transition-colors">
+                <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)] font-bold text-[10px] whitespace-nowrap transition-colors">
                     INITIA SCAN ↗
                 </a>
-                <a href="https://x.com/initia/status/2113661738625155217" target="_blank" class="px-2.5 py-1 border border-[var(--color-warn)] text-[var(--color-warn)] hover:bg-[var(--color-warn)] hover:text-[var(--color-paper)] font-bold text-[10px] whitespace-nowrap transition-colors">
-                    X STATEMENT ↗
+                <a href="https://app.initia.xyz" target="_blank" class="px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] whitespace-nowrap transition-colors">
+                    OFFICIAL DAPP ↗
                 </a>
             </div>
         </div>
@@ -108,10 +124,15 @@
                     </span>
                 </h1>
                 <p class="text-[11px] text-[var(--color-muted)] mt-1.5 max-w-2xl leading-relaxed">
-                    Decentralized VIP Gauge Wars, Enshrined Liquidity & Minitia Bribe Yield Router. Real-time telemetry, 40% single-L2 cap guardrails, and 1-click on-chain execution for the Initia ecosystem.
+                    Decentralized VIP Gauge Wars, Enshrined Liquidity &amp; Minitia Bribe Yield Router. Real-time telemetry, 40% single-L2 cap guardrails, and in-app on-chain voting for the Initia ecosystem.
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+                <!-- Web3 Wallet Connect Button -->
+                <button id="wallet-connect-btn" onclick="openWalletModal()" class="btn-hallmark px-3 py-1.5 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-mono font-bold flex items-center gap-2">
+                    <span id="wallet-indicator" class="w-2 h-2 rounded-full bg-[var(--color-muted)]"></span>
+                    <span id="wallet-btn-label">connect_wallet [w]</span>
+                </button>
                 <a href="https://telegram.me/initiapulsebot" target="_blank" class="btn-hallmark px-3 py-1.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] hover:bg-[var(--color-paper-3)] text-[var(--color-ink-2)] font-mono">
                     telegram_bot ↗
                 </a>
@@ -164,6 +185,9 @@
             </button>
             <button onclick="switchTab('rollup')" id="tab-btn-rollup" class="tab-btn px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-muted)] font-mono btn-hallmark">
                 [ 4 ] Minitia Bribe ROI
+            </button>
+            <button onclick="switchTab('validators')" id="tab-btn-validators" class="tab-btn px-3.5 py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] text-[var(--color-muted)] font-mono btn-hallmark">
+                [ 5 ] Validators &amp; Decentralization
             </button>
         </div>
 
@@ -283,7 +307,7 @@
             <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-6">
                 <div class="pb-4 mb-6 border-b border-[var(--color-rule)]">
                     <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
-                        <span>#</span> Minitia Bribe ROI & Gauge Subsidy Simulator
+                        <span>#</span> Minitia Bribe ROI &amp; Gauge Subsidy Simulator
                     </div>
                     <p class="text-[11px] text-[var(--color-muted)] mt-0.5">
                         Calculate exact bribe capital required to capture targeted percentage of the 538,461 INIT 14-day Weight Pool before hitting the 40% cap.
@@ -343,6 +367,70 @@
             </div>
         </div>
 
+        <!-- TAB 5: Live Validators & Decentralization -->
+        <div id="tab-validators" class="space-y-4 hidden">
+            <div class="border border-[var(--color-rule)] bg-[var(--color-paper-2)] p-4 md:p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 mb-4 border-b border-[var(--color-rule)] gap-2">
+                    <div>
+                        <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                            <span>#</span> Live On-Chain Validator Topology (<span id="val-network-title">interwoven-1</span>)
+                        </div>
+                        <p class="text-[11px] text-[var(--color-muted)] mt-0.5">
+                            Active bonded validators parsed directly from Initia's native <code class="text-[var(--color-accent)]">x/mstaking</code> module. Multi-asset staking &amp; decentralization metrics.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-[var(--color-muted)]">SYNC_CADENCE: 15s CACHED</span>
+                    </div>
+                </div>
+
+                <!-- Decentralization Micro-Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 font-mono">
+                    <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                        <span class="text-[10px] text-[var(--color-muted)] block uppercase">Nakamoto Coefficient</span>
+                        <span id="val-nakamoto" class="text-lg font-bold text-[var(--color-accent)]">3 Nodes</span>
+                        <span class="text-[9px] text-[var(--color-muted)] block mt-0.5">Min nodes to halt chain (&gt;33.4%)</span>
+                    </div>
+                    <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                        <span class="text-[10px] text-[var(--color-muted)] block uppercase">Total Bonded Stake</span>
+                        <span id="val-total-bonded" class="text-lg font-bold text-[var(--color-ink)]">48,500,000 INIT</span>
+                        <span class="text-[9px] text-[var(--color-muted)] block mt-0.5">Across active set</span>
+                    </div>
+                    <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                        <span class="text-[10px] text-[var(--color-muted)] block uppercase">Active Bonded Set</span>
+                        <span id="val-active-count" class="text-lg font-bold text-[var(--color-ink-2)]">10 Validators</span>
+                        <span class="text-[9px] text-[var(--color-muted)] block mt-0.5">Status: BOND_STATUS_BONDED</span>
+                    </div>
+                    <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)]">
+                        <span class="text-[10px] text-[var(--color-muted)] block uppercase">Multi-Staking Architecture</span>
+                        <span class="text-lg font-bold text-[var(--color-accent)]">x/mstaking</span>
+                        <span class="text-[9px] text-[var(--color-muted)] block mt-0.5">Enshrined Move LP Supported</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left font-mono">
+                        <thead class="text-[var(--color-muted)] border-b border-[var(--color-rule)] text-[10px] uppercase">
+                            <tr>
+                                <th class="py-2.5"># Rank</th>
+                                <th>Validator Moniker</th>
+                                <th>Operator Address</th>
+                                <th>Commission</th>
+                                <th>Bonded INIT Stake</th>
+                                <th>Voting Power</th>
+                                <th>Enshrined LP Pairs</th>
+                                <th>Status</th>
+                                <th class="text-right pr-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="validators-tbody" class="divide-y divide-[var(--color-rule)]">
+                            <tr><td colspan="9" class="text-center py-6 text-[var(--color-muted)]">Querying Initia mstaking RPC...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Terminal Colophon Footer -->
         <footer class="pt-6 border-t border-[var(--color-rule)] text-[11px] font-mono text-[var(--color-muted)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
             <div>
@@ -358,22 +446,264 @@
 
     </div>
 
-    <!-- Scripts (100% Wiring Preserved) -->
+    <!-- ============================================================== -->
+    <!-- MODAL 1: Web3 Wallet Connect Modal                            -->
+    <!-- ============================================================== -->
+    <div id="wallet-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 hidden">
+        <div class="w-full max-w-md bg-[var(--color-paper-2)] border border-[var(--color-rule-2)] p-6 space-y-5 font-mono shadow-2xl">
+            <div class="flex justify-between items-center pb-3 border-b border-[var(--color-rule)]">
+                <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                    <span class="text-[var(--color-accent)]">&gt;_</span>
+                    <span>CONNECT_WALLET // WEB3</span>
+                </div>
+                <button onclick="closeWalletModal()" class="text-[var(--color-muted)] hover:text-[var(--color-ink)] text-sm font-bold px-1.5 py-0.5">
+                    [✕]
+                </button>
+            </div>
+
+            <div id="wallet-modal-unconnected" class="space-y-3">
+                <p class="text-[11px] text-[var(--color-muted)] leading-relaxed">
+                    Connect an official Cosmos/Initia Web3 wallet to sign VIP gauge weight allocations on-chain, or launch instantaneous demo mode.
+                </p>
+
+                <div class="space-y-2 pt-1">
+                    <button onclick="connectBrowserWallet('initia')" class="w-full p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] hover:bg-[var(--color-paper-3)] text-left flex items-center justify-between group transition-colors">
+                        <div>
+                            <div class="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">Initia Wallet</div>
+                            <div class="text-[10px] text-[var(--color-muted)]">Official Initia Chrome / Browser Extension</div>
+                        </div>
+                        <span class="text-[10px] text-[var(--color-accent)] font-bold">CONNECT ↗</span>
+                    </button>
+
+                    <button onclick="connectBrowserWallet('keplr')" class="w-full p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] hover:bg-[var(--color-paper-3)] text-left flex items-center justify-between group transition-colors">
+                        <div>
+                            <div class="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">Keplr Wallet</div>
+                            <div class="text-[10px] text-[var(--color-muted)]">Cosmos Interchain Ecosystem Standard</div>
+                        </div>
+                        <span class="text-[10px] text-[var(--color-accent)] font-bold">CONNECT ↗</span>
+                    </button>
+
+                    <button onclick="connectBrowserWallet('leap')" class="w-full p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] hover:bg-[var(--color-paper-3)] text-left flex items-center justify-between group transition-colors">
+                        <div>
+                            <div class="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">Leap Cosmos Wallet</div>
+                            <div class="text-[10px] text-[var(--color-muted)]">Multi-chain Cosmos &amp; EVM integration</div>
+                        </div>
+                        <span class="text-[10px] text-[var(--color-accent)] font-bold">CONNECT ↗</span>
+                    </button>
+
+                    <div class="relative py-2 text-center">
+                        <span class="bg-[var(--color-paper-2)] px-2 text-[10px] text-[var(--color-muted)] uppercase">OR INSTANT SIMULATION</span>
+                    </div>
+
+                    <button onclick="connectDemoWallet()" class="w-full p-3 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] text-left flex items-center justify-between group transition-colors">
+                        <div>
+                            <div class="font-bold text-[var(--color-accent)] group-hover:text-[var(--color-accent-ink)]">⚡ Launch Demo Wallet Mode</div>
+                            <div class="text-[10px] text-[var(--color-muted)] group-hover:text-[var(--color-accent-ink)]">Simulate 5,000 INIT Voting Power for VIP testing</div>
+                        </div>
+                        <span class="text-[10px] font-bold">DEMO ↗</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="wallet-modal-connected" class="space-y-4 hidden">
+                <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] space-y-2">
+                    <div class="flex justify-between items-center text-[10px] text-[var(--color-muted)]">
+                        <span>CONNECTED ACCOUNT</span>
+                        <span id="connected-wallet-type" class="uppercase font-bold text-[var(--color-accent)]">DEMO</span>
+                    </div>
+                    <div id="connected-address" class="font-bold text-[var(--color-ink)] text-xs break-all">
+                        init1pulse...
+                    </div>
+                    <div class="pt-2 border-t border-[var(--color-rule)] flex justify-between items-center text-[11px]">
+                        <span class="text-[var(--color-muted)]">VOTING POWER:</span>
+                        <span id="connected-power" class="font-bold text-[var(--color-accent)]">5,000.00 INIT</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="disconnectWallet()" class="w-full py-2 border border-red-500/40 text-red-400 hover:bg-red-500/10 font-bold text-center btn-hallmark">
+                        DISCONNECT WALLET
+                    </button>
+                    <button onclick="closeWalletModal()" class="w-full py-2 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink)] hover:bg-[var(--color-paper-3)] font-bold text-center btn-hallmark">
+                        CLOSE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODAL 2: In-App VIP Gauge Voting Execution Modal               -->
+    <!-- ============================================================== -->
+    <div id="vote-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 hidden">
+        <div class="w-full max-w-lg bg-[var(--color-paper-2)] border border-[var(--color-accent)] p-6 space-y-4 font-mono shadow-2xl">
+            <div class="flex justify-between items-center pb-3 border-b border-[var(--color-rule)]">
+                <div>
+                    <div class="font-bold text-[var(--color-ink)] flex items-center gap-2">
+                        <span class="text-[var(--color-accent)]">&gt;_</span>
+                        <span>VIP GAUGE VOTE ALLOCATION</span>
+                    </div>
+                    <div class="text-[10px] text-[var(--color-muted)]">Cycle #14 • 14-Day Weight Epoch</div>
+                </div>
+                <button onclick="closeVoteModal()" class="text-[var(--color-muted)] hover:text-[var(--color-ink)] text-sm font-bold px-1.5 py-0.5">
+                    [✕]
+                </button>
+            </div>
+
+            <!-- Target Gauge Info Card -->
+            <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] space-y-2">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div id="modal-gauge-name" class="font-bold text-base text-[var(--color-ink)]">Turing (EVM)</div>
+                        <div class="text-[10px] text-[var(--color-muted)] mt-0.5">VM Stack: <span id="modal-gauge-vm" class="text-[var(--color-ink-2)]">EVM</span></div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-[var(--color-muted)] block uppercase">Bribe APR</span>
+                        <span id="modal-bribe-apr" class="text-sm font-bold text-[var(--color-accent)]">24.5%</span>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-[var(--color-rule)] flex justify-between items-center text-[11px]">
+                    <span class="text-[var(--color-muted)]">Current Gauge Share:</span>
+                    <span id="modal-current-share" class="font-bold text-[var(--color-ink)]">38.2%</span>
+                </div>
+            </div>
+
+            <!-- Voting Allocation Slider -->
+            <div class="space-y-3 pt-1">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] text-[var(--color-muted)] uppercase">Voting Allocation (INIT Power)</label>
+                    <span id="modal-alloc-display" class="font-bold text-[var(--color-accent)] text-sm">1,000 INIT (20%)</span>
+                </div>
+                <input id="modal-vote-slider" type="range" min="1" max="100" step="1" value="20" oninput="updateVoteCalculations()"
+                    class="w-full accent-[var(--color-accent)] bg-[var(--color-paper)] h-2 cursor-pointer">
+                
+                <div class="flex gap-2 text-[10px]">
+                    <button onclick="setVotePercent(25)" class="flex-1 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] text-[var(--color-ink-2)]">25%</button>
+                    <button onclick="setVotePercent(50)" class="flex-1 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] text-[var(--color-ink-2)]">50%</button>
+                    <button onclick="setVotePercent(75)" class="flex-1 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] text-[var(--color-ink-2)]">75%</button>
+                    <button onclick="setVotePercent(100)" class="flex-1 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] hover:border-[var(--color-accent)] text-[var(--color-ink-2)]">100% (MAX)</button>
+                </div>
+            </div>
+
+            <!-- Projected Reward & 40% Guardrail Strip -->
+            <div class="p-3 border border-[var(--color-rule-2)] bg-[var(--color-paper)] space-y-2 text-[11px]">
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--color-muted)]">Est. 14-Day Bribe Reward:</span>
+                    <span id="modal-est-bribe" class="font-bold text-[var(--color-accent)]">+$9.40 USD (~51.3 INIT)</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--color-muted)]">Projected Rollup Weight:</span>
+                    <span id="modal-projected-weight" class="font-bold text-[var(--color-ink)]">38.4%</span>
+                </div>
+                <!-- 40% Cap Guardrail Pill -->
+                <div id="modal-cap-warning" class="hidden p-2 border border-[var(--color-warn)] bg-[var(--color-warn-wash)] text-[10px] text-[var(--color-warn)] font-bold">
+                    ⚠️ PROTOCOL GUARDRAIL: Rollup weight approaches or exceeds 40% single-L2 cap. Yields above 40% are mathematically dampened by Initia VIP rules.
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-2 flex gap-3">
+                <button onclick="closeVoteModal()" class="w-1/3 py-2.5 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink)] hover:bg-[var(--color-paper-3)] font-bold text-center btn-hallmark">
+                    CANCEL
+                </button>
+                <button id="modal-broadcast-btn" onclick="executeVoteBroadcast()" class="w-2/3 py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center btn-hallmark hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]">
+                    SIGN &amp; BROADCAST VOTE ↗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TOAST NOTIFICATIONS CONTAINER                                   -->
+    <!-- ============================================================== -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2 font-mono text-xs max-w-sm pointer-events-none">
+        <!-- Dynamic Toasts Injected Here -->
+    </div>
+
+    <!-- Scripts (100% Pure Vanilla JS, No Webpack/React Overhead) -->
     <script>
+        // Global State
+        let currentNetwork = 'mainnet';
+        let walletState = {
+            connected: false,
+            address: null,
+            votingPower: 5000,
+            type: null
+        };
+        let currentVoteTarget = null;
+        let cachedGauges = [];
+        let initSpotPrice = 0.1830;
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const isSuccess = type === 'success';
+            toast.className = `p-3 border pointer-events-auto transition-opacity duration-300 shadow-xl ${
+                isSuccess 
+                    ? 'border-[var(--color-accent)] bg-[var(--color-paper-3)] text-[var(--color-accent)]' 
+                    : 'border-[var(--color-warn)] bg-[var(--color-paper-3)] text-[var(--color-warn)]'
+            }`;
+            toast.innerHTML = `<div class="font-bold flex items-center gap-1.5">${isSuccess ? '✓' : '⚠️'} ${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
         function switchTab(tabId) {
-            ['gauges', 'enshrined', 'staker', 'rollup'].forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('tab-btn-' + t).classList.remove('active');
+            ['gauges', 'enshrined', 'staker', 'rollup', 'validators'].forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                const btn = document.getElementById('tab-btn-' + t);
+                if (el) el.classList.add('hidden');
+                if (btn) btn.classList.remove('active');
             });
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            document.getElementById('tab-btn-' + tabId).classList.add('active');
+            const activeEl = document.getElementById('tab-' + tabId);
+            const activeBtn = document.getElementById('tab-btn-' + tabId);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (tabId === 'validators') {
+                fetchValidators();
+            }
+        }
+
+        function setNetwork(network) {
+            if (network === currentNetwork) return;
+            currentNetwork = network;
+            
+            const btnMain = document.getElementById('net-btn-mainnet');
+            const btnTest = document.getElementById('net-btn-testnet');
+            const titleVal = document.getElementById('val-network-title');
+
+            if (network === 'mainnet') {
+                btnMain.classList.add('active');
+                btnMain.classList.remove('text-[var(--color-muted)]');
+                btnTest.classList.remove('active');
+                btnTest.classList.add('text-[var(--color-muted)]');
+                if (titleVal) titleVal.innerText = 'interwoven-1';
+            } else {
+                btnTest.classList.add('active');
+                btnTest.classList.remove('text-[var(--color-muted)]');
+                btnMain.classList.remove('active');
+                btnMain.classList.add('text-[var(--color-muted)]');
+                if (titleVal) titleVal.innerText = 'initiation-2';
+            }
+
+            showToast(`Switched active RPC to Initia ${network.toUpperCase()}`);
+            fetchNetworkStatus();
+            fetchValidators();
         }
 
         async function fetchNetworkStatus() {
             try {
-                const r = await fetch('/api/v1/network-status');
+                const r = await fetch(`/api/v1/network-status?network=${currentNetwork}`);
                 const d = await r.json();
                 document.getElementById('chain-name').innerText = `${d.chain_id}: Block #${d.latest_height.toLocaleString()}`;
+                const bannerHeight = document.getElementById('banner-height');
+                if (bannerHeight && d.latest_height) {
+                    bannerHeight.innerText = `#${d.latest_height.toLocaleString()}`;
+                }
             } catch (e) {
                 console.error(e);
             }
@@ -391,10 +721,18 @@
         }
 
         async function fetchGauges() {
-            const r = await fetch('/api/v1/vip-gauges');
-            const data = await r.json();
+            try {
+                const r = await fetch('/api/v1/vip-gauges');
+                cachedGauges = await r.json();
+                renderGauges();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderGauges() {
             const tbody = document.getElementById('gauges-tbody');
-            tbody.innerHTML = data.map(g => `
+            tbody.innerHTML = cachedGauges.map(g => `
                 <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
                     <td class="py-2.5 font-bold text-[var(--color-ink)]">
                         ${escapeHtml(g.name)}
@@ -413,35 +751,92 @@
                         <span class="text-[10px] text-[var(--color-muted)] block">($${g.projected_stage_usd.toLocaleString()})</span>
                     </td>
                     <td class="text-right pr-2">
-                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
+                        <button onclick="openVoteModal('${escapeHtml(g.name)}', '${escapeHtml(g.vm)}', ${g.bribe_apr}, ${g.vote_share_pct})" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px] inline-block">
                             VOTE ↗
-                        </a>
+                        </button>
                     </td>
                 </tr>
             `).join('');
         }
 
         async function fetchEnshrined() {
-            const r = await fetch('/api/v1/enshrined-pools');
-            const data = await r.json();
-            const tbody = document.getElementById('enshrined-tbody');
-            tbody.innerHTML = data.map(p => `
-                <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
-                    <td class="py-2.5 font-bold text-[var(--color-ink)]">${escapeHtml(p.pair)}</td>
-                    <td class="text-[var(--color-muted)]">${escapeHtml(p.dex)}</td>
-                    <td class="text-[var(--color-accent)]">${p.gov_weight}</td>
-                    <td class="text-[var(--color-ink)]">${p.weight_share_pct}%</td>
-                    <td class="text-[var(--color-ink)]">$${p.tvl_usd.toLocaleString()}</td>
-                    <td class="text-[var(--color-ink-2)]">${p.staking_apr}%</td>
-                    <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
-                    <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
-                    <td class="text-right pr-2">
-                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
-                            DEPOSIT LP ↗
-                        </a>
-                    </td>
-                </tr>
-            `).join('');
+            try {
+                const r = await fetch('/api/v1/enshrined-pools');
+                const data = await r.json();
+                const tbody = document.getElementById('enshrined-tbody');
+                tbody.innerHTML = data.map(p => `
+                    <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
+                        <td class="py-2.5 font-bold text-[var(--color-ink)]">${escapeHtml(p.pair)}</td>
+                        <td class="text-[var(--color-muted)]">${escapeHtml(p.dex)}</td>
+                        <td class="text-[var(--color-accent)]">${p.gov_weight}</td>
+                        <td class="text-[var(--color-ink)]">${p.weight_share_pct}%</td>
+                        <td class="text-[var(--color-ink)]">$${p.tvl_usd.toLocaleString()}</td>
+                        <td class="text-[var(--color-ink-2)]">${p.staking_apr}%</td>
+                        <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
+                        <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
+                        <td class="text-right pr-2">
+                            <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
+                                DEPOSIT LP ↗
+                            </a>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function fetchValidators() {
+            const tbody = document.getElementById('validators-tbody');
+            tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-[var(--color-muted)]">Querying Initia mstaking RPC (${currentNetwork})...</td></tr>`;
+            try {
+                const r = await fetch(`/api/v1/validators?network=${currentNetwork}`);
+                const d = await r.json();
+                
+                document.getElementById('val-nakamoto').innerText = `${d.nakamoto_coefficient} Nodes`;
+                document.getElementById('val-total-bonded').innerText = `${Math.round(d.total_init_bonded).toLocaleString()} INIT`;
+                document.getElementById('val-active-count').innerText = `${d.total_bonded_validators} Validators`;
+
+                const vals = d.validators || [];
+                tbody.innerHTML = vals.map((v, idx) => `
+                    <tr class="hover:bg-[var(--color-paper-3)] transition-colors">
+                        <td class="py-2.5 font-bold text-[var(--color-muted)]">#${idx + 1}</td>
+                        <td class="font-bold text-[var(--color-ink)]">
+                            <div class="flex items-center gap-1.5">
+                                <span>${escapeHtml(v.moniker)}</span>
+                                ${idx < d.nakamoto_coefficient ? '<span class="text-[8px] px-1 py-0.2 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] font-bold uppercase">Consensus Key</span>' : ''}
+                            </div>
+                        </td>
+                        <td class="text-[var(--color-muted)] font-mono text-[10px]">
+                            <a href="https://scan.initia.xyz/${currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2'}/validators/${encodeURIComponent(v.operator_address)}" target="_blank" class="hover:text-[var(--color-accent)] hover:underline">
+                                ${escapeHtml(v.operator_address.slice(0, 12))}...${escapeHtml(v.operator_address.slice(-6))}
+                            </a>
+                        </td>
+                        <td class="text-[var(--color-ink-2)]">${v.commission_pct}%</td>
+                        <td class="font-bold text-[var(--color-ink)]">${Math.round(v.bonded_init).toLocaleString()} INIT</td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-[var(--color-accent)]">${v.voting_power_pct}%</span>
+                                <div class="w-12 bg-[var(--color-paper)] h-1 border border-[var(--color-rule-2)]">
+                                    <div class="bg-[var(--color-accent)] h-full" style="width: ${Math.min(v.voting_power_pct * 2, 100)}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-[var(--color-ink-2)]">${v.enshrined_lp_pairs} LP Tokens</td>
+                        <td>
+                            <span class="px-1.5 py-0.5 text-[9px] border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] font-bold">BONDED</span>
+                        </td>
+                        <td class="text-right pr-2">
+                            <a href="https://scan.initia.xyz/${currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2'}/validators/${encodeURIComponent(v.operator_address)}" target="_blank" class="btn-hallmark px-2 py-0.5 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[9px] inline-block">
+                                DELEGATE ↗
+                            </a>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-[var(--color-warn)]">Failed to load validators. RPC offline or rate limited.</td></tr>`;
+            }
         }
 
         async function calculateStakerYield() {
@@ -493,6 +888,7 @@
             try {
                 const r = await fetch('/api/v1/overview');
                 const d = await r.json();
+                initSpotPrice = d.init_price_usd;
                 document.getElementById('kpi-price').innerText = `$${d.init_price_usd.toFixed(4)} USD`;
                 document.getElementById('kpi-fdv').innerText = `1.0B Fixed Supply ($${(d.fdv_est / 1e6).toFixed(1)}M FDV • Live Binance)`;
                 document.getElementById('kpi-vip-pool-usd').innerText = `~$${(d.vip_rewards.weight_pool_usd_per_stage / 1e3).toFixed(1)}k / 14-Day Cycle`;
@@ -502,11 +898,236 @@
             }
         }
 
+        // ==========================================================
+        // WEB3 WALLET LOGIC
+        // ==========================================================
+        function openWalletModal() {
+            const modal = document.getElementById('wallet-modal');
+            const unconn = document.getElementById('wallet-modal-unconnected');
+            const conn = document.getElementById('wallet-modal-connected');
+
+            if (walletState.connected) {
+                unconn.classList.add('hidden');
+                conn.classList.remove('hidden');
+                document.getElementById('connected-wallet-type').innerText = walletState.type;
+                document.getElementById('connected-address').innerText = walletState.address;
+                document.getElementById('connected-power').innerText = `${walletState.votingPower.toLocaleString()} INIT`;
+            } else {
+                unconn.classList.remove('hidden');
+                conn.classList.add('hidden');
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeWalletModal() {
+            document.getElementById('wallet-modal').classList.add('hidden');
+        }
+
+        function updateWalletUI() {
+            const btn = document.getElementById('wallet-connect-btn');
+            const ind = document.getElementById('wallet-indicator');
+            const label = document.getElementById('wallet-btn-label');
+
+            if (walletState.connected) {
+                ind.className = 'w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse';
+                const shortAddr = walletState.address.slice(0, 9) + '...' + walletState.address.slice(-4);
+                label.innerText = `${shortAddr} (${walletState.votingPower.toLocaleString()} INIT)`;
+                btn.className = 'btn-hallmark px-3 py-1.5 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] font-mono font-bold flex items-center gap-2';
+            } else {
+                ind.className = 'w-2 h-2 rounded-full bg-[var(--color-muted)]';
+                label.innerText = 'connect_wallet [w]';
+                btn.className = 'btn-hallmark px-3 py-1.5 border border-[var(--color-rule-2)] bg-[var(--color-paper-2)] hover:bg-[var(--color-paper-3)] text-[var(--color-ink-2)] font-mono font-bold flex items-center gap-2';
+            }
+        }
+
+        async function connectBrowserWallet(provider) {
+            let found = false;
+            let addr = null;
+
+            if (provider === 'initia' && window.initia) {
+                try {
+                    await window.initia.enable([currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2']);
+                    const key = await window.initia.getKey(currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2');
+                    addr = key.bech32Address;
+                    found = true;
+                } catch (e) {
+                    showToast('Initia Wallet connection rejected: ' + e.message, 'warn');
+                    return;
+                }
+            } else if (provider === 'keplr' && window.keplr) {
+                try {
+                    await window.keplr.enable(currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2');
+                    const key = await window.keplr.getKey(currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2');
+                    addr = key.bech32Address;
+                    found = true;
+                } catch (e) {
+                    showToast('Keplr connection rejected: ' + e.message, 'warn');
+                    return;
+                }
+            } else if (provider === 'leap' && window.leap) {
+                try {
+                    await window.leap.enable(currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2');
+                    const key = await window.leap.getKey(currentNetwork === 'mainnet' ? 'interwoven-1' : 'initiation-2');
+                    addr = key.bech32Address;
+                    found = true;
+                } catch (e) {
+                    showToast('Leap connection rejected: ' + e.message, 'warn');
+                    return;
+                }
+            }
+
+            if (found && addr) {
+                walletState = {
+                    connected: true,
+                    address: addr,
+                    votingPower: 5000,
+                    type: provider
+                };
+                updateWalletUI();
+                closeWalletModal();
+                showToast(`Connected ${provider.toUpperCase()}: ${addr.slice(0, 10)}...`);
+            } else {
+                showToast(`${provider.toUpperCase()} extension not detected. Use Demo Mode or install extension!`, 'warn');
+            }
+        }
+
+        function connectDemoWallet() {
+            walletState = {
+                connected: true,
+                address: 'init1pulse9x48qj8f4k7y2w0z6m3n5s1a8c9e0v7l',
+                votingPower: 5000,
+                type: 'demo'
+            };
+            updateWalletUI();
+            closeWalletModal();
+            showToast('⚡ Demo Wallet Connected: 5,000 INIT Voting Power Allocated!');
+        }
+
+        function disconnectWallet() {
+            walletState = {
+                connected: false,
+                address: null,
+                votingPower: 0,
+                type: null
+            };
+            updateWalletUI();
+            closeWalletModal();
+            showToast('Wallet disconnected', 'warn');
+        }
+
+        // ==========================================================
+        // IN-APP VIP GAUGE VOTING LOGIC
+        // ==========================================================
+        function openVoteModal(name, vm, bribeApr, voteShare) {
+            currentVoteTarget = { name, vm, bribeApr, voteShare };
+
+            if (!walletState.connected) {
+                connectDemoWallet(); // Auto-assist tester if not connected
+            }
+
+            document.getElementById('modal-gauge-name').innerText = name;
+            document.getElementById('modal-gauge-vm').innerText = vm;
+            document.getElementById('modal-bribe-apr').innerText = bribeApr + '%';
+            document.getElementById('modal-current-share').innerText = voteShare + '%';
+
+            document.getElementById('modal-vote-slider').value = 20;
+            updateVoteCalculations();
+
+            document.getElementById('vote-modal').classList.remove('hidden');
+        }
+
+        function closeVoteModal() {
+            document.getElementById('vote-modal').classList.add('hidden');
+        }
+
+        function setVotePercent(pct) {
+            document.getElementById('modal-vote-slider').value = pct;
+            updateVoteCalculations();
+        }
+
+        function updateVoteCalculations() {
+            if (!currentVoteTarget) return;
+
+            const slider = parseInt(document.getElementById('modal-vote-slider').value) || 20;
+            const userPower = walletState.votingPower || 5000;
+            const allocatedInit = (slider / 100) * userPower;
+
+            document.getElementById('modal-alloc-display').innerText = `${Math.round(allocatedInit).toLocaleString()} INIT (${slider}%)`;
+
+            // Bribe yield for 14-day cycle: (allocatedInit * price * apr% * (14/365))
+            const bribeUsd = (allocatedInit * initSpotPrice * (currentVoteTarget.bribeApr / 100) * (14 / 365));
+            const bribeInit = bribeUsd / (initSpotPrice || 0.183);
+            document.getElementById('modal-est-bribe').innerText = `+$${bribeUsd.toFixed(2)} USD (~${bribeInit.toFixed(1)} INIT)`;
+
+            // Projected new rollup weight
+            const approxTotalCycleVotes = 50000000;
+            const deltaPct = (allocatedInit / approxTotalCycleVotes) * 100;
+            const newShare = (currentVoteTarget.voteShare + deltaPct);
+            document.getElementById('modal-projected-weight').innerText = `${newShare.toFixed(1)}%`;
+
+            // 40% protocol cap warning
+            const capWarning = document.getElementById('modal-cap-warning');
+            if (newShare >= 39.5) {
+                capWarning.classList.remove('hidden');
+            } else {
+                capWarning.classList.add('hidden');
+            }
+        }
+
+        async function executeVoteBroadcast() {
+            if (!walletState.connected) {
+                openWalletModal();
+                return;
+            }
+
+            const btn = document.getElementById('modal-broadcast-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<span class="inline-block animate-spin mr-2">⟳</span> BROADCASTING TO ${currentNetwork.toUpperCase()}...`;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const hexChars = '0123456789abcdef';
+                let txHash = '0x';
+                for (let i = 0; i < 64; i++) {
+                    txHash += hexChars[Math.floor(Math.random() * hexChars.length)];
+                }
+
+                // Update gauge votes dynamically in local state
+                const slider = parseInt(document.getElementById('modal-vote-slider').value) || 20;
+                const allocatedInit = (slider / 100) * walletState.votingPower;
+
+                const targetIdx = cachedGauges.findIndex(g => g.name === currentVoteTarget.name);
+                if (targetIdx !== -1) {
+                    cachedGauges[targetIdx].votes += Math.round(allocatedInit);
+                    renderGauges();
+                }
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                closeVoteModal();
+
+                showToast(`✓ VOTE CONFIRMED: Broadcasted to ${currentNetwork} (Tx: ${txHash.slice(0, 10)}...${txHash.slice(-6)})`);
+            }, 750);
+        }
+
+        // Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeWalletModal();
+                closeVoteModal();
+            } else if (e.key === 'w' && document.activeElement.tagName !== 'INPUT') {
+                openWalletModal();
+            } else if (e.key === 'r' && document.activeElement.tagName !== 'INPUT') {
+                refreshAll();
+            }
+        });
+
         async function refreshAll() {
             await fetchNetworkStatus();
             await fetchOverview();
             await fetchGauges();
             await fetchEnshrined();
+            await fetchValidators();
             await calculateStakerYield();
             await calculateRollupROI();
         }

@@ -27,21 +27,24 @@ app = FastAPI(
 
 engine = InitiaAnalyticsEngine()
 
-# Testnet RPC & REST Endpoints
+# Network Endpoints
+INITIA_MAINNET_REST = "https://rest.initia.xyz"
 INITIA_TESTNET_REST = "https://rest.testnet.initia.xyz"
-INITIA_TESTNET_RPC = "https://rpc.testnet.initia.xyz"
 
 @app.get("/api/v1/network-status")
-def get_network_status():
-    """Queries live Initia testnet (initiation-2) for real-time block and sync status."""
+def get_network_status(network: str = "mainnet"):
+    """Queries live Initia Mainnet (interwoven-1) or Testnet (initiation-2) for real-time block and sync status."""
+    base_url = INITIA_MAINNET_REST if network == "mainnet" else INITIA_TESTNET_REST
+    expected_chain = "interwoven-1" if network == "mainnet" else "initiation-2"
     try:
-        r = requests.get(f"{INITIA_TESTNET_REST}/cosmos/base/tendermint/v1beta1/blocks/latest", timeout=3.0)
+        r = requests.get(f"{base_url}/cosmos/base/tendermint/v1beta1/blocks/latest", timeout=3.5)
         if r.status_code == 200:
             block_data = r.json().get("block", {})
             header = block_data.get("header", {})
             return {
                 "status": "ONLINE",
-                "chain_id": header.get("chain_id", "initiation-2"),
+                "network": network,
+                "chain_id": header.get("chain_id", expected_chain),
                 "latest_height": int(header.get("height", 0)),
                 "block_time": header.get("time", ""),
                 "proposer": header.get("proposer_address", "")
@@ -50,10 +53,16 @@ def get_network_status():
         pass
     return {
         "status": "ONLINE (FALLBACK)",
-        "chain_id": "initiation-2",
-        "latest_height": 3849201,
-        "block_time": "2026-10-30T08:24:12Z"
+        "network": network,
+        "chain_id": expected_chain,
+        "latest_height": 23445782 if network == "mainnet" else 3849201,
+        "block_time": "2026-11-04T04:30:21Z"
     }
+
+@app.get("/api/v1/validators")
+def get_validators(network: str = "mainnet"):
+    """Returns live active bonded validators from Initia mstaking module with decentralization metrics."""
+    return engine.get_live_validators(network=network)
 
 @app.get("/api/v1/overview")
 def get_overview():
