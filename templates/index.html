@@ -358,8 +358,8 @@
                             </div>
                         </div>
                         <div class="col-span-2 pt-2">
-                            <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
-                                OPEN INITIA SCAN (INTERWOVEN-1) ↗
+                            <a href="https://app.initia.xyz/vip" target="_blank" class="w-full py-2.5 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-bold text-center block btn-hallmark hover:bg-[var(--color-ink)]">
+                                OPEN OFFICIAL VIP PORTAL (APP.INITIA.XYZ) ↗
                             </a>
                         </div>
                     </div>
@@ -775,7 +775,7 @@
                         <td class="text-[var(--color-muted)]">${p.fee_apr}%</td>
                         <td class="text-[var(--color-accent)] font-bold">${p.blended_apr}%</td>
                         <td class="text-right pr-2">
-                            <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
+                            <a href="https://app.initia.xyz/pool" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-rule-2)] bg-[var(--color-paper)] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] font-bold text-[10px] inline-block">
                                 DEPOSIT LP ↗
                             </a>
                         </td>
@@ -862,9 +862,10 @@
                             <span class="text-base font-bold text-[var(--color-accent)]">${s.apr}% APY</span>
                             <span class="text-[10px] text-[var(--color-muted)] block">+$${s.annual_yield_usd.toLocaleString()} / year</span>
                         </div>
-                        <a href="https://scan.initia.xyz/interwoven-1" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">
-                            EXECUTE ↗
-                        </a>
+                        ${idx === 2 
+                            ? `<button onclick="switchTab('gauges')" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-accent-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)] font-bold text-[10px]">VOTE IN APP ↗</button>`
+                            : `<a href="${idx === 0 ? 'https://app.initia.xyz/stake' : 'https://app.initia.xyz/pool'}" target="_blank" class="btn-hallmark px-2.5 py-1 border border-[var(--color-accent)] bg-[var(--color-accent-wash)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-ink)] font-bold text-[10px]">EXECUTE ↗</a>`
+                        }
                     </div>
                 </div>
             `).join('');
